@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+
+/* 主题 */
+@import "colors";
+
+.theme-normal {
+  body {
+    color: $color-black;
+    a:link {
+      color: $color-black;
+    }
+
+    a:visited {
+      color: $color-black;
+    }
+
+    a:hover {
+      color: $color-gray;
+    }
+
+    a:active {
+      color: $color-black;
+    }
+
+  }
+
+}
