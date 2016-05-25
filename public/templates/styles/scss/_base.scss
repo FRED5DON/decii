@@ -3,3 +3,29 @@
 @import "theme";
 @import "animator";
 @import "autolayout";
+
+//Loading
+.decii div.loading {
+  div{
+    width: 16px;
+    height: 16px;
+    background-color: $color-pink;
+    border-radius: 8px;
+    display: inline-block;
+    -webkit-animation: loading-bounce 1.4s infinite ease-in-out;
+    animation: loading-bounce 1.4s infinite ease-in-out;
+    /* Prevent first frame from flickering when animation starts */
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+  }
+  //LoadingItem
+  @for $i from 1 through 3 {
+    .item-#{$i} {
+      -webkit-animation-delay: 0.16s * ($i - 1);
+      animation-delay: 0.16s * ($i - 1);
+    }
+  }
+}
+
+
+
