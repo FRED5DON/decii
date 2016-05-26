@@ -1,6 +1,7 @@
 {
   "require": {
-    "filp/whoops": "*"
+    "filp/whoops": "*",
+    "twbs/bootstrap":"*"
   },
   "autoload": {
     "classmap": [
