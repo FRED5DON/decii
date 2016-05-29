@@ -7,7 +7,7 @@
  * @author   Fred Don <gsiner@live.com>
  */
 
-define('BASE_PATH',__DIR__);
+define('BASE_PATH', __DIR__);
 
 
 $uri = urldecode(

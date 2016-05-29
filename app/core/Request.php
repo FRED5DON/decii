@@ -37,7 +37,10 @@ class Request extends HttpMessage
 
     public static function GET_VALUE($key = '')
     {
-        return self:: GETS()[$key];
+        if (isset($_GET[$key])) {
+            return $_GET[$key];
+        }
+        return '';
     }
 
     public static function POSTS()
@@ -50,7 +53,40 @@ class Request extends HttpMessage
 
     public static function POST_VALUE($key = '')
     {
-        return self:: POSTS()[$key];
+        if (isset($_POST[$key])) {
+            return $_POST[$key];
+        }
+        return '';
+    }
+
+    public static function SESSION_GET($key = '')
+    {
+        if (isset($_SESSION[$key])) {
+            return $_SESSION[$key];
+        }
+        return '';
+    }
+
+    public static function SESSION_PUT($key = '', $value = '')
+    {
+        if ($key) {
+            $_SESSION[$key] = $value;
+        }
+    }
+
+    public static function COOKIE_GET($key = '')
+    {
+        if (isset($_COOKIE[$key])) {
+            return $_COOKIE[$key];
+        }
+        return '';
+    }
+
+    public static function COOKIE_PUT($key = '', $value = '')
+    {
+        if ($key) {
+            $_COOKIE[$key] = $value;
+        }
     }
 
 }

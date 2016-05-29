@@ -83,6 +83,7 @@ class Route
     public static $ctrlNS = array(
         'BaseController' => \Decii\App\Controllers\BaseController::class,
         'ManaController' => \Decii\App\Controllers\API\ManaController::class,
+        'ConfigController' => \Decii\App\Controllers\API\ConfigController::class,
 
 
     );

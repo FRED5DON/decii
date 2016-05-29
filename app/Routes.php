@@ -7,12 +7,16 @@
  */
 use Decii\App\Route as Route;
 
+
 Route::get('/base','BaseController@index');
 
 
 Route::get('/base2','ManaController@index');
 
 
+Route::get('/lang','ConfigController@lang');
+
+Route::get('/vcode','ConfigController@verifyImage');
 //use \NoahBuscher\Macaw\Macaw as Route;
 //
 //

@@ -1,28 +1,69 @@
 @charset "UTF-8";
 
-
 /* 主题 */
 @import "colors";
 
-.theme-normal {
-  body {
+body.theme-normal {
+  background: $color-white;
+  a{
+    text-decoration: none;
+  }
+  &.global-bg {
+    background: $color-milk !important;
+  }
+  color: $color-black;
+  a:link {
     color: $color-black;
-    a:link {
-      color: $color-black;
-    }
+  }
 
-    a:visited {
-      color: $color-black;
-    }
+  a:visited {
+    color: $color-black;
+  }
 
-    a:hover {
-      color: $color-gray;
-    }
+  a:hover {
+    color: $color-skyblue;
+  }
 
-    a:active {
-      color: $color-black;
-    }
+  a:active {
+    color: $color-skyblue;
+  }
+  nav.navbar {
+    background: $color-milk !important;
+    box-shadow: 0px 0.5px 0.5px transparentize($color-black, 0.8);
+    .nav > li {
+      a {
+        color: $color-black;
+        font-weight: bold;
+        span.glyphicon {
+          margin-right: $icon-spacing;
+        }
+      }
+      a:focus {
+        background: transparent;
+      }
+      &.active a, a:hover {
+        background: transparentize($color-black, 0.9);
+        color: $color-black;
+      }
 
+    }
+    .navbar-toggle .icon-bar {
+      background: $color-black;
+    }
+  }
+
+  //登录面板
+  //注册面板
+  .panel-sign{
+    border: 1px solid transparentize($color-black,0.8);
+    padding: $padding-margin-normal $padding-margin-huge $padding-margin $padding-margin-huge;
+    background-color: $color-white;
+  }
+
+  footer {
+    text-align: center;
+    background: $color-milk !important;
+    padding: $form-padding;
   }
 
 }

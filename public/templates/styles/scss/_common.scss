@@ -1,0 +1,54 @@
+@charset "UTF-8";
+
+
+//去outline边框
+%withoutOutline{
+  outline-style: none !important;
+}
+//去背景
+%background-transparent{
+  @include transparentW(0.6);
+}
+
+%gray-stroke-border-radius{
+  border-radius: $default-radius !important;
+}
+
+@mixin circle-corner($radius:3px){
+  border-radius: $radius;
+  @extend %withoutOutline;
+}
+
+.center{
+  text-align: center;
+  margin:auto;
+}
+
+
+//全员圆角
+.circle-corner{
+  @include circle-corner($normal-radius);
+
+}
+
+//搜索框样式
+input.searchBox{
+  @extend %background-transparent;
+  //@extend %gray-stroke-border-radius;
+  border-radius: $normal-radius;
+}
+//登录注册按钮
+.access-entry{
+  & > button{
+    text-align: center;
+    display: inline;
+    margin-left: $form-inner-spacing;
+    width:90px;
+    @include circle-corner($normal-radius);
+    @extend %withoutOutline;
+  }
+  &:nth-last-child(1){
+    margin-right: $form-inner-spacing;
+  }
+}
+

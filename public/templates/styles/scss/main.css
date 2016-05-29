@@ -1,50 +1,44 @@
 @charset "UTF-8";
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  outline: 0;
-  font-size: 100%;
-  vertical-align: baseline;
-  background: transparent; }
-
-body {
-  line-height: 1; }
-
-ol, ul {
-  list-style: none; }
-
-blockquote, q {
-  quotes: none; }
-
-blockquote:before, blockquote:after, q:before, q:after {
-  content: ''; }
-
-:focus {
-  outline: 0; }
-
-ins {
-  text-decoration: none; }
-
-del {
-  text-decoration: line-through; }
-
-table {
-  border-collapse: collapse;
-  border-spacing: 0; }
-
 /* 保持顺序 */
 /* 主题 */
-.theme-normal body {
+body.theme-normal {
+  background: #FFFFFF;
   color: #3e3e3e; }
-  .theme-normal body a:link {
+  body.theme-normal a {
+    text-decoration: none; }
+  body.theme-normal.global-bg {
+    background: #ededed !important; }
+  body.theme-normal a:link {
     color: #3e3e3e; }
-  .theme-normal body a:visited {
+  body.theme-normal a:visited {
     color: #3e3e3e; }
-  .theme-normal body a:hover {
-    color: #8d8c92; }
-  .theme-normal body a:active {
-    color: #3e3e3e; }
+  body.theme-normal a:hover {
+    color: #18c4ed; }
+  body.theme-normal a:active {
+    color: #18c4ed; }
+  body.theme-normal nav.navbar {
+    background: #ededed !important;
+    box-shadow: 0px 0.5px 0.5px rgba(62, 62, 62, 0.2); }
+    body.theme-normal nav.navbar .nav > li a {
+      color: #3e3e3e;
+      font-weight: bold; }
+      body.theme-normal nav.navbar .nav > li a span.glyphicon {
+        margin-right: 6px; }
+    body.theme-normal nav.navbar .nav > li a:focus {
+      background: transparent; }
+    body.theme-normal nav.navbar .nav > li.active a, body.theme-normal nav.navbar .nav > li a:hover {
+      background: rgba(62, 62, 62, 0.1);
+      color: #3e3e3e; }
+    body.theme-normal nav.navbar .navbar-toggle .icon-bar {
+      background: #3e3e3e; }
+  body.theme-normal .panel-sign {
+    border: 1px solid rgba(62, 62, 62, 0.2);
+    padding: 30px 60px 15px 60px;
+    background-color: #FFFFFF; }
+  body.theme-normal footer {
+    text-align: center;
+    background: #ededed !important;
+    padding: 10px; }
 
 /* 动画 */
 /*
@@ -80,6 +74,31 @@ table {
     opacity: 0.2; }
   to {
     opacity: 1; } }
+.circle-corner, .access-entry > button {
+  outline-style: none !important; }
+
+input.searchBox {
+  background: rgba(255, 255, 255, 0.4); }
+
+.center {
+  text-align: center;
+  margin: auto; }
+
+.circle-corner {
+  border-radius: 30px; }
+
+input.searchBox {
+  border-radius: 30px; }
+
+.access-entry > button {
+  text-align: center;
+  display: inline;
+  margin-left: 10px;
+  width: 90px;
+  border-radius: 30px; }
+.access-entry:nth-last-child(1) {
+  margin-right: 10px; }
+
 .decii div.loading div {
   width: 16px;
   height: 16px;
