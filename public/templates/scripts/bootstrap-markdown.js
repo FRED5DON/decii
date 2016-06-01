@@ -511,7 +511,6 @@
             this.$isPreview = true;
             // Disable all buttons
             this.disableButtons('all').enableButtons('cmdPreview');
-
             // Try to get the content from callback
             callbackContent = options.onPreview(this);
             // Set the content based from the callback content if string otherwise parse value from textarea
@@ -1287,9 +1286,9 @@
                     toggle: true,
                     hotkey: 'Ctrl+P',
                     title: 'Preview',
-                    btnText: 'Preview',
-                    btnClass: 'btn btn-primary btn-sm',
-                    icon: { glyph: 'glyphicon glyphicon-search', fa: 'fa fa-search', 'fa-3': 'icon-search' },
+                    //btnText: 'Preview',
+                    btnClass: 'btn btn-default btn-sm',
+                    icon: { glyph: 'glyphicon glyphicon-eye-open', fa: 'fa fa-search', 'fa-3': 'icon-search' },
                     callback: function(e){
                         // Check the preview mode and toggle based on this flag
                         var isPreview = e.$isPreview,content;

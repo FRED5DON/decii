@@ -12,4 +12,6 @@ class BaseController{
     public function index(){
         echo __METHOD__;
     }
+
+    //ip
 }

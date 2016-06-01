@@ -1,8 +1,3 @@
-<?php
-$path_dir_templates = './public/templates/';
-$map = include_once 'plates/lang.php';
-$lang = $map['currentLang'];
-?>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -82,11 +77,12 @@ $lang = $map['currentLang'];
                         <img width="120" height="32" class="img-sm" src="/vcode?index=<?=time() ?>"
                              alt="..." class="img-rounded"></span>
                 </div>
-                <div class="form-group has-feedback hide">
+                <div class="form-group has-feedback">
                     <div class="col-sm-12">
-                        <div class="bg-danger alert circle-corner">
-                            <p><span class="glyphicon glyphicon-remove"
-                                     aria-hidden="true"></span> <?= $map['verify-error-user'][$lang] ?></p>
+                        <div class="alert alert-warning alert-dismissible fade in circle-corner" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span></button>
+                            <?= $map['verify-error-user'][$lang] ?>
                         </div>
                     </div>
                 </div>
@@ -95,7 +91,7 @@ $lang = $map['currentLang'];
                         <div class="checkbox">
                             <label>
                                 <input type="checkbox"><?= $map['agree'][$lang] ?>
-                            </label><?= '<a id="agreement" href="javascript:;">'.$map['agreement'][$lang].'</a>' ?>
+                            </label><?= '<a id="agreement" data-toggle="modal" data-target="#myModal" href="javascript:;">'.$map['agreement'][$lang].'</a>' ?>
                         </div>
                     </div>
                 </div>
@@ -124,6 +120,25 @@ $lang = $map['currentLang'];
 
 </div><!-- /.container -->
 
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document" aria-hidden="true">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 <?php include_once 'plates/footer.php' ?>
 
 

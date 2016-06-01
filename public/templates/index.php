@@ -1,7 +1,5 @@
 <?php
 $path_dir_templates = './public/templates/';
-$lang = 'jp';
-$map = include_once 'plates/lang.php';
 ?>
 <!DOCTYPE html>
 <html lang="zh-CN">

@@ -3,7 +3,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
 <title>De'Blog</title>
+<?php
 
+$path_dir_templates = './public/templates/';
+$map = include_once 'lang.php';
+$lang = $map['currentLang'];
+
+?>
 <link rel="shortcut icon" href="<?php echo $path_dir_templates; ?>favicon.ico"/>
 <link rel="bookmark" href="<?php echo $path_dir_templates; ?>favicon.ico" type="image/x-icon"/>
 <meta name="description" content="Peronal Page of Freddon"/>

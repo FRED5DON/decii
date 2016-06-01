@@ -1,7 +1,5 @@
 <?php
 $path_dir_templates = './public/templates/';
-$map = include_once 'plates/lang.php';
-$lang = $map['currentLang'];
 ?>
 <!DOCTYPE html>
 <html lang="zh-CN">

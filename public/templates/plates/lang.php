@@ -32,13 +32,11 @@ return [
         'en' => 'Settings',
         'zh' => '设置',
         'jp' => '設置',
-
     ),
     'nav-signup' => array(
         'en' => 'Sign Up',
         'zh' => '注册',
         'jp' => '登録',
-
     ),
     'nav-signin' => array(
         'en' => 'Sign In',
@@ -135,5 +133,76 @@ return [
         'en' => 'Existing account? Click here to ',
         'zh' => '已有账号？立即',
         'jp' => 'アカウントはありますか？すぐに',
-    )
+    ),
+    //note Publish
+    'title' => array(
+        'en' => 'Title',
+        'zh' => '标题',
+        'jp' => '標題',
+    ),
+    'remark' => array(
+        'en' => 'Remark',
+        'zh' => '摘要',
+        'jp' => '要旨',
+    ),
+    'content' => array(
+        'en' => 'Content',
+        'zh' => '正文',
+        'jp' => '本文',
+    ),
+    'keyword' => array(
+        'en' => 'Keyword',
+        'zh' => '关键字',
+        'jp' => 'キーワード',
+    ),
+    'submit' => array(
+        'en' => 'Submit',
+        'zh' => '提交',
+        'jp' => '提出する',
+    ),
+    'publish' => array(
+        'en' => 'Publish',
+        'zh' => '发布',
+        'jp' => 'リリース',
+    ),
+    'save' => array(
+        'en' => 'Save',
+        'zh' => '保存',
+        'jp' => 'アーカイブ',
+    ),
+    'complete' => array(
+        'en' => 'Complete',
+        'zh' => '完成',
+        'jp' => '完成する',
+    ),
+    'setting' => array(
+        'en' => 'Settings',
+        'zh' => '设置',
+        'jp' => '設置',
+    ),
+    'type' => array(
+        'en' => 'Type',
+        'zh' => '类型',
+        'jp' => 'タイプ',
+    ),
+    'Categories' => array(
+        'en' => 'Categories',
+        'zh' => '分类',
+        'jp' => 'カテゴリー',
+    ),
+    'time' => array(
+        'en' => 'Time',
+        'zh' => '时间',
+        'jp' => '時間',
+    ),
+    'date' => array(
+        'en' => 'Date',
+        'zh' => '日期',
+        'jp' => 'ナツメヤシ',
+    ),
+    'word' => array(
+        'en' => 'Word',
+        'zh' => '字',
+        'jp' => 'ワード',
+    ),
 ];

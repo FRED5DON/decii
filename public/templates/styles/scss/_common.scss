@@ -23,7 +23,11 @@
   text-align: center;
   margin:auto;
 }
-
+//通用的button去背景
+.btn {
+  background-image:none !important;
+  @extend %withoutOutline;
+}
 
 //全员圆角
 .circle-corner{

@@ -74,7 +74,7 @@ body.theme-normal {
     opacity: 0.2; }
   to {
     opacity: 1; } }
-.circle-corner, .access-entry > button {
+.btn, .circle-corner, .access-entry > button {
   outline-style: none !important; }
 
 input.searchBox {
@@ -83,6 +83,9 @@ input.searchBox {
 .center {
   text-align: center;
   margin: auto; }
+
+.btn {
+  background-image: none !important; }
 
 .circle-corner {
   border-radius: 30px; }
