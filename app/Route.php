@@ -72,7 +72,10 @@ class Route
                 $class_name = $class_methods[0];
                 $method_name = $class_methods[1];
                 if (isset(self::$ctrlNS[$class_name])) {
-                    call_user_func_array(array(self::$ctrlNS[$class_name], $method_name), []);
+//                    call_user_func_array(array(self::$ctrlNS[$class_name], $method_name), []);
+//                    //利用反射调用对象方法
+                    $reflectionMethod = new \ReflectionMethod(self::$ctrlNS[$class_name],$method_name);
+                    $reflectionMethod->invoke(new self::$ctrlNS[$class_name](), 'fred');
                 }
 
             }
@@ -84,6 +87,7 @@ class Route
         'BaseController' => \Decii\App\Controllers\BaseController::class,
         'ManaController' => \Decii\App\Controllers\API\ManaController::class,
         'ConfigController' => \Decii\App\Controllers\API\ConfigController::class,
+        'UserController' => \Decii\App\Controllers\API\UserController::class,
 
 
     );

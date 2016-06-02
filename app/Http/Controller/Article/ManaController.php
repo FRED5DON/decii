@@ -19,6 +19,14 @@ class ManaController extends BaseController
 
     }
 
+//    //单例方法,用于访问实例的公共的静态方法
+//    public static function getInstance(){
+//        if(!(self::$_instance instanceof self)){
+//            self::$_instance = new self;
+//        }
+//        return self::$_instance;
+//    }
+
     public function index()
     {
 //        echo __METHOD__;
