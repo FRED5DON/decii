@@ -25,7 +25,7 @@ class ConfigController extends BaseController{
 
 
     public function verifyImage(){
-        echo self::getCode(null,5,120,32);
+        echo self::getCode('sign_up_code',5,120,32);
     }
 
     public static function getCode($code_key="code_key",$num=5, $w=80, $h=36)
@@ -39,6 +39,7 @@ class ConfigController extends BaseController{
         }
         //4位验证码也可以用rand(1000,9999)直接生成
         //将生成的验证码写入session，备验证时用
+        session_start();
         $_SESSION[$code_key] = $code;
         //创建图片，定义颜色值
         header("Content-type:image/PNG");

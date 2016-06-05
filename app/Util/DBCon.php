@@ -18,10 +18,10 @@ class DBCon
      */
     public static function getConfig()
     {
-        if(isset(self::$config)){
+        if (isset(self::$config)) {
             return self::$config;
         }
-        self::$config=[
+        self::$config = [
             'driver' => 'mysql',
             'host' => env('DB_HOST', '127.0.0.1'),
             'database' => env('DB_DATABASE', 'qdm122976243_db'),
@@ -44,26 +44,27 @@ class DBCon
     }
 
 
-
-
     public static function getCon()
     {
-        $cfg=self::getConfig();
-        if(!isset(self::$conn)){
+        $cfg = self::getConfig();
+        if (!isset(self::$conn)) {
 
-            self::$conn = new \mysqli($cfg['host'], $cfg['username'], $cfg['password'],$cfg['database']);
-            if (mysqli_connect_errno(self::$conn))
-            {
+            self::$conn = new \mysqli($cfg['host'], $cfg['username'], $cfg['password'], $cfg['database']);
+            if (mysqli_connect_errno(self::$conn)) {
                 echo "Failed to connect to MySQL: " . mysqli_connect_error();
             }
         }
-        return  self::$conn;
+        return self::$conn;
     }
 
     public static function query($sql)
     {
-       $result= self::getCon()->query($sql)->fetch_all(MYSQLI_ASSOC);
-        if(isset($result)){
+        $r = self::getCon()->query($sql);
+        if (!$r) {
+            return [];
+        }
+        $result = $r->fetch_all(MYSQLI_ASSOC);
+        if (isset($result)) {
             return json_encode($result);
         }
         return [];
@@ -71,27 +72,27 @@ class DBCon
 
     public static function insert($sql)
     {
-        $re=self::getCon()->query($sql);
+        self::getCon()->query($sql);
         return array(
-            'affected_rows'=>$re->affected_rows,
-            'id'=>$re->insert_id,
+            'affected_rows' =>self::getCon()->affected_rows,
+            'id' => self::getCon()->insert_id,
         );
     }
 
     public static function delete($sql)
     {
-        $re=self::getCon()->query($sql);
+        $re = self::getCon()->query($sql);
         return array(
-            'affected_rows'=>$re->affected_rows
+            'affected_rows' => self::getCon()->affected_rows
         );
     }
 
 
     public static function update($sql)
     {
-        $re=self::getCon()->query($sql);
+        $re = self::getCon()->query($sql);
         return array(
-            'affected_rows'=>$re->affected_rows
+            'affected_rows' => self::getCon()->affected_rows
         );
     }
 

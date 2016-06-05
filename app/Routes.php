@@ -17,11 +17,11 @@ Route::get('/base2','ManaController@index');
 Route::get('/lang','ConfigController@lang');
 
 //注册
-Route::post('/singup','UserController@singup');
+Route::post('/user/singup','UserController@singup');
 //登录
-Route::post('/singin','UserController@singin');
+Route::post('/user/singin','UserController@singin');
 //验证码
-Route::get('/vcode','ConfigController@verifyImage');
+Route::get('/user/vcode','ConfigController@verifyImage');
 //use \NoahBuscher\Macaw\Macaw as Route;
 //
 //

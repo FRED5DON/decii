@@ -6,15 +6,22 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Decii\\App\\Authorize\\VerifyCodeTiz' => $baseDir . '/app/Http/Controller/User/AuthorizeTiz/VerifyCodeTiz.php',
     'Decii\\App\\Controllers\\API\\ConfigController' => $baseDir . '/app/Http/Controller/Env/ConfigController.php',
     'Decii\\App\\Controllers\\API\\ManaController' => $baseDir . '/app/Http/Controller/Article/ManaController.php',
+    'Decii\\App\\Controllers\\API\\UserController' => $baseDir . '/app/Http/Controller/User/UserController.php',
     'Decii\\App\\Controllers\\BaseController' => $baseDir . '/app/Http/Controller/Base/BaseController.php',
+    'Decii\\App\\Controllers\\Controller' => $baseDir . '/app/Http/Controller/Base/Controller.php',
     'Decii\\App\\Core\\Block' => $baseDir . '/app/core/block.php',
     'Decii\\App\\Core\\HttpMessage' => $baseDir . '/app/core/HttpMessage.php',
     'Decii\\App\\Core\\Request' => $baseDir . '/app/core/Request.php',
+    'Decii\\App\\Core\\Response' => $baseDir . '/app/core/Response.php',
+    'Decii\\App\\Model\\ODataMsgModel' => $baseDir . '/app/Model/ODataMsgModel.php',
     'Decii\\App\\Route' => $baseDir . '/app/Route.php',
     'Decii\\App\\RouterHandler' => $baseDir . '/app/core/RouterHandler.php',
     'Decii\\App\\Util\\DBCon' => $baseDir . '/app/Util/DBCon.php',
     'Decii\\App\\Util\\QueryBuilder' => $baseDir . '/app/Util/QueryBuilder.php',
     'Decii\\App\\Util\\Strings' => $baseDir . '/app/Util/Strings.php',
+    'ImageCodesMap' => $baseDir . '/app/Util/ImageCodesMap.php',
+    'RegexMatcher' => $baseDir . '/app/Util/RegexMatcher.php',
 );
