@@ -27,6 +27,13 @@ class ManaController extends BaseController
 //        return self::$_instance;
 //    }
 
+    public function make()
+    {
+        $param = Request::POSTS();
+        echo json_encode($param);
+    }
+
+
     public function index()
     {
 //        echo __METHOD__;

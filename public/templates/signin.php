@@ -1,5 +1,5 @@
 <?php
-$path_dir_templates = './public/templates/';
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -17,6 +17,10 @@ $path_dir_templates = './public/templates/';
         .input-group-addon.verify-code img {
             border-radius: 0 30px 30px 0;
         }
+        .alert{
+            margin-bottom: 0 !important;
+        }
+
     </style>
 </head>
 <body class="decii theme-normal global-bg">
@@ -32,7 +36,7 @@ $path_dir_templates = './public/templates/';
     <div class="row">
         <div class="col-sm-2 col-md-3"></div>
         <div class="col-sm-8 col-md-6 center-block panel-sign circle-corner">
-            <form class="form-horizontal">
+            <form  class="form-horizontal" action="/user/signin">
                 <div class="form-group">
                     <div class="col-sm-12">
                         <a href="#">
@@ -47,29 +51,27 @@ $path_dir_templates = './public/templates/';
                 </div>
                 <div class="form-group">
                     <div class="col-sm-12">
-                        <input type="email" class="form-control circle-corner" id="inputEmail3"
+                        <input type="text" class="form-control circle-corner" name="usrname"
                                placeholder="<?= $map['username'][$lang] . ' / ' . $map['email'][$lang] ?>">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-12">
-                        <input type="password" class="form-control circle-corner" id="inputPassword3"
+                        <input type="password" class="form-control circle-corner" id="usrpwd"
                                placeholder="<?= $map['password'][$lang] ?>">
+                        <input type="password" name="usrpassword" hidden="hidden"/>
                     </div>
                 </div>
                 <div class="input-group" style="margin-bottom: 16px;">
-                    <input type="text" class="form-control circle-corner" placeholder="<?= $map['vcode'][$lang] ?>"
+                    <input type="text" class="form-control circle-corner" name="uvcode" placeholder="<?= $map['vcode'][$lang] ?>"
                            aria-describedby="basic-addon2">
                     <span class="input-group-addon verify-code" id="basic-addon2">
-                        <img width="120" height="32" class="img-sm" src="/vcode?index=<?=time() ?>"
+                        <img width="120" height="32" id="u-imcode" class="img-sm" src="/user/vcode/signin?index=<?=time() ?>"
                              alt="..." class="img-rounded"></span>
                 </div>
-                <div class="form-group has-feedback hide">
+                <div class="form-group has-feedback notify-panel">
                     <div class="col-sm-12">
-                        <div class="bg-danger alert circle-corner">
-                            <p><span class="glyphicon glyphicon-remove"
-                                     aria-hidden="true"></span> <?= $map['verify-error-user'][$lang] ?></p>
-                        </div>
+
                     </div>
                 </div>
                 <div class="form-group">
@@ -83,7 +85,7 @@ $path_dir_templates = './public/templates/';
                 </div>
                 <div class="form-group">
                     <div class="col-sm-12">
-                        <button type="submit"
+                        <button type="button" id="signin"
                                 class="btn btn-info btn-block circle-corner"><?= $map['nav-signin'][$lang] ?></button>
                     </div>
                 </div>
@@ -114,6 +116,92 @@ $path_dir_templates = './public/templates/';
 
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+
+<script src="<?php echo $path_dir_templates; ?>scripts/fred/fred.valid.js"></script>
+<script>
+    $(document).ready(
+        function () {
+
+            $('#u-imcode').click(function(){
+                refresh();
+            });
+            function refresh(){
+                $("#u-imcode").attr('src','/user/vcode/signin?index='+new Date().getTime());
+            }
+
+            function mkNotification(value) {
+                var s = [];
+                s.push('<div class="alert alert-warning alert-dismissible fade in circle-corner" role="alert">');
+                s.push('<button type="button" class="close" data-dismiss="alert" aria-label="Close">');
+                s.push('<span aria-hidden="true">×</span></button>');
+                s.push('<span class="msg-content">' + value + '</span></div>');
+                return s.join('');
+            }
+
+//           console.log( $('form[id="signUp"]').fred_valid(2) );
+            $('form button#signin').click(function () {
+
+                var v = [
+                    {
+                        "value": $('input[name="usrname"]').val(),
+                        "rules": ['not_empty', 'abcsignal_dash',
+                            {'max_length': 11},
+                            {'min_length': 4}
+                        ],
+                        "msg": "请检查用户名"
+                    },
+                    {
+                        "value": $("input#usrpwd").val(),
+                        "rules": ['not_empty', 'abcnums_dash',
+                            {'max_length': 11},
+                            {'min_length': 6}
+                        ],
+                        "msg": "密码只能包含数字、字母、下划线"
+                    },
+
+                ];
+                if (<?=isset($_SESSION['sign_in_code']) ? 1 : 0 ?>) {
+                    v.push({
+                        "value": $("input[name='uvcode']").val(),
+                        "rules": ['not_empty', 'alphas_dash'
+                        ],
+                        "msg": "请输入验证码"
+                    });
+                }
+//                alert(12);
+                var s = $.fred_valid().validate(v);
+                if (s) {
+                    showNotify(s['msg']);
+                }else{
+                    if($("input#usrpwd").val()){
+                        $("input[name='usrpassword']").val($.fn.md5($("input#usrpwd").val()));
+                        envir.httpProxy.ajax($('form').attr('action'),$('form').serialize(),'POST',
+                            function(xhr,res,o){
+                                refresh();
+                                showNotify($.parseJSON(o.responseText)['msg']['msg']);
+                                console.log(o.responseText);
+                            },
+                            function(xhr,res,o){}
+                        );
+                    }
+                }
+
+
+
+            });
+
+            function showNotify(msg){
+                $('.notify-panel > div').html(mkNotification(msg));
+                $('.notify-panel').fadeIn('slow', function () {
+                    // Animation complete
+                });
+            }
+
+
+        });
+
+</script>
 </body>
 </html>
 

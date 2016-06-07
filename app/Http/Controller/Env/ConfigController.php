@@ -11,29 +11,37 @@ namespace Decii\App\Controllers\API;
 use Decii\App\Controllers\BaseController;
 use Decii\App\Core\Request;
 
-class ConfigController extends BaseController{
+class ConfigController extends BaseController
+{
 
-    public function lang(){
-        $lang=Request::POST_VALUE('lang');
-        if($lang){
-            Request::COOKIE_PUT('lang',$lang);
+    public function lang()
+    {
+        $lang = Request::POST_VALUE('lang');
+        if ($lang) {
+            Request::COOKIE_PUT('lang', $lang);
             //FIXME 保存用户配置
-            echo json_encode(array('result'=>$lang));
+            echo json_encode(array('result' => $lang));
         }
-        echo json_encode(array('result'=>'ERR'));
+        echo json_encode(array('result' => 'ERR'));
     }
 
 
-    public function verifyImage(){
-        echo self::getCode('sign_up_code',5,120,32);
+    public function verifyImageSignin()
+    {
+        echo self::getCode('sign_in_code', 5, 120, 32);
     }
 
-    public static function getCode($code_key="code_key",$num=5, $w=80, $h=36)
+    public function verifyImageSignup()
+    {
+        echo self::getCode('sign_up_code', 5, 120, 32);
+    }
+
+    public static function getCode($code_key = "code_key", $num = 5, $w = 80, $h = 36)
     {
         $code = "";
-        $map='abcdefghjkmnpqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXY0123456789';
+        $map = 'abcdefghjkmnpqrstuvwxyABCDEFGHIJKLMNPQRSTUVWXY23456789';
 
-        $len=strlen($map);
+        $len = strlen($map);
         for ($i = 0; $i < $num; $i++) {
             $code .= $map{rand(0, $len)};
         }
@@ -45,7 +53,7 @@ class ConfigController extends BaseController{
         header("Content-type:image/PNG");
         $im = imagecreate($w, $h);
         $black = imagecolorallocate($im, 0, 0, 0);
-        $vcodeColor = imagecolorallocate($im, 13,153,157);
+        $vcodeColor = imagecolorallocate($im, 13, 153, 157);
         $gray = imagecolorallocate($im, 200, 200, 200);
         $bgcolor = imagecolorallocate($im, 255, 255, 255);
         //填充背景
@@ -79,5 +87,56 @@ class ConfigController extends BaseController{
         }
         imagepng($im);//输出图片
         imagedestroy($im);//释放图片所占内存
+    }
+
+
+    public static function mkToken($username, $password)
+    {
+        if ($username && $password) {
+            $string = $username . "" . substr($password, 6, 12);
+            $key = "decii";//密钥
+//           return self::encrypt($string,$key);//目前php encrypt.模块未开
+            return md5($string);
+        }
+        return null;
+    }
+
+    public static function encrypt($string, $key = 'decii')
+    {
+        if (!$string) return null;
+        //自带的加密函数
+        $crypttext = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($key), $string, MCRYPT_MODE_CBC, md5(md5($key))));
+        $encrypted = trim(self::safe_b64encode($crypttext));//对特殊字符进行处理
+        return $encrypted;
+    }
+
+
+    public static function decrypt($token, $key = 'decii')
+    {
+        if (!$token) return null;
+        $crypttexttb = self::safe_b64decode($token);//对特殊字符解析
+        $decryptedtb = rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($crypttexttb), MCRYPT_MODE_CBC, md5(md5($key))), "\0");//解密函数
+        return $decryptedtb;
+    }
+
+
+    //处理特殊字符
+
+    public static function safe_b64encode($string)
+    {
+        $data = base64_encode($string);
+        $data = str_replace(array('+', '/', '='), array('-', '_', ''), $data);
+        return $data;
+    }
+
+    //解析特殊字符
+    public static function safe_b64decode($string)
+    {
+        $data = str_replace(array('-', '_'), array('+', '/'), $string);
+        $mod4 = strlen($data) % 4;
+        if ($mod4) {
+            $data .= substr('====', $mod4);
+        }
+        return base64_decode($data);
     }
 }

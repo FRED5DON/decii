@@ -139,6 +139,10 @@
                 var regex = /^[a-zA-Z0-9_]*$/i;
                 return regex.test(value);
             },
+            abcsignal_dash: function (field, value) {
+                var regex = /^[a-zA-Z0-9_@\.]*$/i;
+                return regex.test(value);
+            },
             alpha_numeric: function (field, value) {
                 var regex = /^[a-z0-9]*$/i;
                 return regex.test(value);

@@ -41,7 +41,7 @@ session_start();
     <div class="row">
         <div class="col-sm-2 col-md-3"></div>
         <div class="col-sm-8 col-md-6 center-block panel-sign circle-corner">
-            <form id="signUp" class="form-horizontal" action="/user/singup"
+            <form id="signUp" class="form-horizontal" action="/user/signup"
                   method="post"
                   enctype="application/x-www-form-urlencoded">
                 <div class="form-group">
@@ -91,7 +91,7 @@ session_start();
                            placeholder="<?= $map['vcode'][$lang] ?>"
                            aria-describedby="basic-addon2">
                     <span class="input-group-addon verify-code" id="basic-addon2">
-                        <img width="120" height="32" class="img-sm" id="u-imcode" src="/user/vcode?index=<?= time() ?>"
+                        <img width="120" height="32" class="img-sm" id="u-imcode" src="/user/vcode/signup?index=<?= time() ?>"
                              alt="..." class="img-rounded"></span>
                 </div>
                 <div class="form-group has-feedback notify-panel">
@@ -171,7 +171,7 @@ session_start();
                 refresh();
             });
             function refresh(){
-                $("#u-imcode").attr('src','/user/vcode?index='+new Date().getTime());
+                $("#u-imcode").attr('src','/user/vcode/signup?index='+new Date().getTime());
             }
 
             function mkNotification(value) {
@@ -229,24 +229,30 @@ session_start();
 //                alert(12);
                 var s = $.fred_valid().validate(v);
                 if (s) {
-                    $('.notify-panel > div').html(mkNotification(s['msg']));
-                    $('.notify-panel').fadeIn('slow', function () {
-                        // Animation complete
-                    });
+                    showNotify(s['msg']);
                 }else{
-
+                    if($("input#usrpwd").val()){
+                        $("input[name='usrpassword']").val($.fn.md5($("input#usrpwd").val()));
+                        envir.httpProxy.ajax($('form').attr('action'),$('form').serialize(),'POST',
+                            function(xhr,res,o){
+                                refresh();
+                                console.log(o.responseText);
+                                showNotify($.parseJSON(o.responseText)['msg']['msg']);
+                            },
+                            function(xhr,res,o){}
+                        );
+                    }
                 }
-                $("input[name='usrpassword']").val($.fn.md5($("input#usrpwd").val()));
-                envir.httpProxy.ajax($('form').attr('action'),$('form').serialize(),'POST',
-                    function(xhr,res,o){
-                        refresh();
-                        console.log(o.responseText);
-                    },
-                    function(xhr,res,o){}
-                );
 
             });
 
+
+            function showNotify(msg){
+                $('.notify-panel > div').html(mkNotification(msg));
+                $('.notify-panel').fadeIn('slow', function () {
+                    // Animation complete
+                });
+            }
 
         });
 

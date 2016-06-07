@@ -20,16 +20,31 @@ class UserController extends BaseController
     public function signin()
     {
         $param = Request::POSTS();
-        $vrCode = VerifyCodeTiz::validate('signin', $param['vcode']);
+        $vrCode = VerifyCodeTiz::validate('signin', $param['uvcode']);
         if ($vrCode == VerifyCodeTiz::$VERIFY_STATE_FAILURE) {
-            die();
+            die(Response::outJson(ODataMsgModel::make(404, "验证码错误", 1)));
         }
-        echo 'Fred';
+        //usrname=fred&usrpassword=e10adc3949ba59abbe56e057f20f883e&uvcode=3ffoa
+        $userName = isset($param["usrname"]) ? $param["usrname"] : "";
+        $usrpassword = isset($param["usrpassword"]) ? $param["usrpassword"] : "";
+        if (!(\RegexMatcher::alpha_underline($userName, 4, 11) || \RegexMatcher::email($userName))) {
+            die(Response::outJson(ODataMsgModel::make(206, "用户名有误", 1)));
+        }
+        $result = DBCon::query("select * from sys_user where (`usrname`='$userName' and `password`='$usrpassword')");
+        if ($result == '[]') {
+            die(Response::outJson(ODataMsgModel::make(206, "用户名或密码错误", 1)));
+        } else {
+            //生成token放head
+            $token=ConfigController::mkToken($userName,$usrpassword);
+            header("TOKEN:".$token);
+            echo (Response::outJson(ODataMsgModel::make(200, "登陆成功", 1), $result,array('url'=>'index.php')));
+        }
 
     }
 
 
-    public function singup()
+
+    public function signup()
     {
         $param = Request::POSTS();
         //{"usrname":"fred","email":"gsiner@live.com","usrpwd":"123456","usrpwd2":"123456","uvcode":"yBt2u"}

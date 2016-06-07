@@ -8,7 +8,7 @@
 
 //语言指示map
 return [
-    'currentLang'=>isset($_COOKIE['lang'])?$_COOKIE['lang']:'zh',
+    'currentLang' => isset($_COOKIE['lang']) ? $_COOKIE['lang'] : 'zh',
     'nav-feature' => array(
         'en' => 'Feature',
         'zh' => '发现',
@@ -124,7 +124,7 @@ return [
         'en' => 'Verification code',
         'zh' => '验证码',
         'jp' => '検証コード',
-    ),'verify-error-user' => array(
+    ), 'verify-error-user' => array(
         'en' => 'Username or password error',
         'zh' => '用户名或密码不正确',
         'jp' => 'ユーザー名やパスワードは正しい',
@@ -185,7 +185,7 @@ return [
         'zh' => '类型',
         'jp' => 'タイプ',
     ),
-    'Categories' => array(
+    'categories' => array(
         'en' => 'Categories',
         'zh' => '分类',
         'jp' => 'カテゴリー',
@@ -205,4 +205,77 @@ return [
         'zh' => '字',
         'jp' => 'ワード',
     ),
+    //sentences 提示语句
+    'st_verifycode_error' => array(
+        'en' => 'The verification code error',
+        'zh' => '验证码错误',
+        'jp' => '検証コードエラー',
+    ),
+    'st_username_error' => array(
+        'en' => 'The username is incorrect',
+        'zh' => '用户名不正确',
+        'jp' => 'ユーザ名が正しくない',
+    ),
+    'st_pwd_error' => array(
+        'en' => 'The password is incorrect',
+        'zh' => '密码不正确',
+        'jp' => 'パスワードは正しくありません',
+    ),
+    'st_nameorpwd_error' => array(
+        'en' => 'Incorrect username or password',
+        'zh' => '用户名或密码错误',
+        'jp' => 'ユーザ名またはパスワードエラー',
+    ),
+    'st_username_conflict' => array(
+        'en' => 'The username already exists',
+        'zh' => '用户名已存在',
+        'jp' => 'ユーザー名が存在している',
+    ),
+    'st_email_error' => array(
+        'en' => 'Mailbox format is incorrect',
+        'zh' => '邮箱格式有误',
+        'jp' => 'メールボックスに誤りがあります',
+    ),
+    'st_signin_ok' => array(
+        'en' => 'Login success',
+        'zh' => '登录成功',
+        'jp' => 'ログイン成功',
+    ),
+    'st_signin_error' => array(
+        'en' => 'Login failure',
+        'zh' => '登录失败',
+        'jp' => 'ログイン失敗',
+    ),
+    'st_signup_ok' => array(
+        'en' => 'Successfully Registered',
+        'zh' => '注册成功',
+        'jp' => '登録が成功する',
+    ),
+    //validate 验证
+    'va_username_check' => array(
+        'en' => 'Please check the username',
+        'zh' => '请检查用户名',
+        'jp' => 'ユーザ名をチェックしてください',
+    ),
+    'va_email_check' => array(
+        'en' => 'Please check the e-mail',
+        'zh' => '请检查电子邮箱',
+        'jp' => '電子メールをチェックして下さい',
+    ), 'va_pwd_check' => array(
+        'en' => 'Please check the password',
+        'zh' => '请检查密码',
+        'jp' => 'パスワードをチェックして下さい',
+    ),
+    'va_confirmpwd' => array(
+        'en' => 'Confirmation password do not match',
+        'zh' => '确认密码不一致',
+        'jp' => '確認用のパスワードが一致しない',
+    ),
+    'va_vcode' => array(
+        'en' => 'Please input verification code',
+        'zh' => '请输入验证码',
+        'jp' => '入力検証コードを入力してください',
+    ),
+
+
 ];

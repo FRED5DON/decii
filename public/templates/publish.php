@@ -1,5 +1,5 @@
 <?php
-$path_dir_templates = './public/templates/';
+
 ?>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -7,10 +7,11 @@ $path_dir_templates = './public/templates/';
     <?php include_once 'plates/head.php' ?>
     <link rel="stylesheet" type="text/css" href="<?= $path_dir_templates ?>styles/plugin/bootstrap-markdown.min.css"/>
     <style>
-        textarea#content{
+        textarea#content {
             padding: 6px;
         }
-        .write-panel{
+
+        .write-panel {
             margin: auto 10px;
         }
 
@@ -31,15 +32,15 @@ $path_dir_templates = './public/templates/';
     <div class="row">
         <div class="col-sm-2"></div>
         <div class="col-sm-8">
-            <form class="form-horizontal write-panel">
+            <form class="form-horizontal write-panel" action="/article/make">
                 <div class="form-group">
                     <label for="title"><?= $map['title'][$lang] ?></label>
-                    <input type="text" class="form-control" id="exampleInputEmail1"
+                    <input type="text" class="form-control" name="title"
                            placeholder="<?= $map['title'][$lang] ?>"/>
                 </div>
                 <div class="form-group">
                     <label for="remark"><?= $map['remark'][$lang] ?></label>
-                    <input type="text" class="form-control" id="remark"
+                    <input type="text" class="form-control" id="remark" name="remark"
                            placeholder="<?= $map['remark'][$lang] ?>">
                 </div>
                 <div class="form-group">
@@ -48,11 +49,11 @@ $path_dir_templates = './public/templates/';
                 </div>
                 <div class="form-group">
                     <label for="keyword"><?= $map['keyword'][$lang] ?></label>
-                    <input type="text" class="form-control" id="keyword"
+                    <input type="text" class="form-control" id="keyword" name="keyword"
                            placeholder="<?= $map['keyword'][$lang] ?>">
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-info"><?= $map['submit'][$lang] ?></button>
+                    <button type="button" id="publish" class="btn btn-info"><?= $map['submit'][$lang] ?></button>
                 </div>
             </form>
         </div>
@@ -89,19 +90,70 @@ $path_dir_templates = './public/templates/';
 
         var _count = 30000;
         $("#content").markdown({
-            autofocus: true, savable: false, footer: "<span class='text-success' id='content-footer'>0 / " + _count + "</span>",
+            autofocus: true,
+            savable: false,
+            footer: "<span class='text-success' id='content-footer'>0 / " + _count + "</span>",
             language: 'ja'
-            , onChange: function (e) {
+            ,
+            onChange: function (e) {
                 if (e.getContent().length <= _count) {
                     $("#content-footer").attr("class", 'text-success');
                 } else {
                     $("#content-footer").attr("class", 'text-danger');
                 }
-                $("#content-footer").text(e.getContent().length + " / "+_count);
+                $("#content-footer").text(e.getContent().length + " / " + _count);
             },
 
 
         });
+
+        $('form button#publish').click(function () {
+
+            var v = [
+                {
+                    "value": $('input[name="title"]').val(),
+                    "rules": ['not_empty'],
+                    "msg": "请填写标题"
+                },
+                {
+                    "value": $("input[name='content']").val(),
+                    "rules": ['not_empty'],
+                    "msg": "请输正文"
+                },
+
+                {
+                    "value": $("input#keyword").val(),
+                    "rules": ['not_empty'],
+                    "msg": "请填写关键字"
+                },
+
+            ];
+            /*if (<($_SESSION['sign_up_code']) ? 1 : 0 ?>) {
+             v.push({
+             "value": $("input[name='uvcode']").val(),
+             "rules": ['not_empty', 'alphas_dash'
+             ],
+             "msg": "请输入验证码"
+             });
+             }*/
+//                alert(12);
+            var s = $.fred_valid().validate(v);
+            if (s) {
+//                showNotify(s['msg']);
+            } else {
+                envir.httpProxy.ajax($('form').attr('action'), $('form').serialize(), 'POST',
+                    function (xhr, res, o) {
+                        console.log(o.responseText);
+//                            showNotify($.parseJSON(o.responseText)['msg']['msg']);
+                    },
+                    function (xhr, res, o) {
+                    }
+                );
+            }
+
+        });
+
+
     }(jQuery))
 
 </script>

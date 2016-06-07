@@ -22,11 +22,11 @@ class Response extends HttpMessage
     {
 
         $out = array();
-        if ($data==null) {
+        if ($data) {
             $out['data'] = $data;
         }
         if ($params) {
-            $out[] = $params;
+            $out['tmp'] = $params;
         }
         if ($msg) {
             $out['msg'] = self::outMsg($msg);
