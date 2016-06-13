@@ -32,7 +32,7 @@
     <div class="row">
         <div class="col-sm-2"></div>
         <div class="col-sm-8">
-            <form class="form-horizontal write-panel" action="/article/make">
+            <form  id="pub-article" class="form-horizontal write-panel" action="/article/make">
                 <div class="form-group">
                     <label for="title"><?= $map['title'][$lang] ?></label>
                     <input type="text" class="form-control" name="title"
@@ -71,6 +71,8 @@
 <script src="<?= $path_dir_templates ?>scripts/bootstrap-markdown.js"></script>
 <script src="<?= $path_dir_templates ?>scripts/locale/bootstrap-markdown.ja.js"></script>
 <script src="<?= $path_dir_templates ?>scripts/locale/bootstrap-markdown.zh.js"></script>
+
+<script src="<?= $path_dir_templates ?>scripts/fred/fred.valid.js"></script>
 <script>
 
     //    $(document).ready(function(){
@@ -116,7 +118,7 @@
                     "msg": "请填写标题"
                 },
                 {
-                    "value": $("input[name='content']").val(),
+                    "value": $("textarea[name='content']").val(),
                     "rules": ['not_empty'],
                     "msg": "请输正文"
                 },
@@ -139,9 +141,9 @@
 //                alert(12);
             var s = $.fred_valid().validate(v);
             if (s) {
-//                showNotify(s['msg']);
+                console.log(s['msg']);
             } else {
-                envir.httpProxy.ajax($('form').attr('action'), $('form').serialize(), 'POST',
+                envir.httpProxy.ajax($('form#pub-article').attr('action'), $('form').serialize(), 'POST',
                     function (xhr, res, o) {
                         console.log(o.responseText);
 //                            showNotify($.parseJSON(o.responseText)['msg']['msg']);

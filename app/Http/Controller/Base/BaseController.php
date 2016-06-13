@@ -28,7 +28,6 @@ class BaseController implements Controller{
         if($this->needAuthorized){
             $this->onReceiveRequest();
         }
-//        echo __METHOD__.$this->index."<br/>";
     }
 
     public function index(){
@@ -52,7 +51,7 @@ class BaseController implements Controller{
             null);
 
 //            $uri= 'http://'.$_ENV['REMOTE_ADDR'].':'.$_ENV['SERVER_PORT'].$_ENV['REQUEST_URI'];
-            var_dump(json_encode(headers_list()));
+//            var_dump(json_encode(headers_list()));
             die(json_encode($_SERVER));
         }
 

@@ -30,6 +30,8 @@ class ManaController extends BaseController
     public function make()
     {
         $param = Request::POSTS();
+//      echo "SUC!!";
+        //{"title":"asdf","remark":"sdf","content":"sa**dsfa**","keyword":"sdfasdf"}
         echo json_encode($param);
     }
 
