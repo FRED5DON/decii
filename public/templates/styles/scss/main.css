@@ -90,6 +90,12 @@ input.searchBox {
 .circle-corner {
   border-radius: 30px; }
 
+textarea {
+  border-width: 0; }
+  textarea:focus, textarea:active {
+    box-shadow: none;
+    outline: none; }
+
 input.searchBox {
   border-radius: 30px; }
 

@@ -6,7 +6,7 @@
 <?php
 
 $path_dir_templates = './public/templates/';
-$map = include_once 'lang.php';
+$map = include_once 'Lang.php';
 $lang = $map['currentLang'];
 
 ?>

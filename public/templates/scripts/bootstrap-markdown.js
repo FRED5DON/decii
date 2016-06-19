@@ -242,6 +242,8 @@
 
             this.$isFullscreen = mode;
             $textarea.focus();
+            var options = this.$options;
+            options.onFullScreenChanged(this,mode);
         }
 
         , showEditor: function() {
@@ -318,23 +320,33 @@
 
                 editor.append(editorHeader);
 
+                var editorPanel = $('<div/>', {
+                    'class': 'container-fluid'
+                });var editorRow = $('<div/>', {
+                    'class': 'row md-content-panel'
+                });
+
                 // Wrap the textarea
                 if (container.is('textarea')) {
                     container.before(editor);
                     textarea = container;
+                    textarea.addClass('col-sm-12');
+                    textarea.addClass('col-xs-12');
                     textarea.addClass('md-input');
-                    editor.append(textarea);
+                    //editor.append(textarea);
+                    editorRow.append(textarea);
                 } else {
                     var rawContent = (typeof toMarkdown == 'function') ? toMarkdown(container.html()) : container.html(),
                         currentContent = $.trim(rawContent);
 
                     // This is some arbitrary content that could be edited
                     textarea = $('<textarea/>', {
-                        'class': 'md-input',
+                        'class': 'col-sm-12 col-xs-12 md-input',
                         'val' : currentContent
                     });
 
-                    editor.append(textarea);
+                    //editor.append(textarea);
+                    editorRow.append(textarea);
 
                     // Save the editable
                     editable.el = container;
@@ -347,9 +359,10 @@
                     });
 
                     // Set editor to blocked the original container
-                    container.replaceWith(editor);
+                    container.replaceWith(editorRow);
                 }
-
+                editorPanel.append(editorRow);
+                editor.append(editorPanel);
                 var editorFooter = $('<div/>', {
                         'class': 'md-footer'
                     }),
@@ -510,7 +523,7 @@
             // Give flag that tell the editor enter preview mode
             this.$isPreview = true;
             // Disable all buttons
-            this.disableButtons('all').enableButtons('cmdPreview');
+            this.disableButtons('all').enableButtons('cmdPreview').enableButtons('cmdIPre');
             // Try to get the content from callback
             callbackContent = options.onPreview(this);
             // Set the content based from the callback content if string otherwise parse value from textarea
@@ -529,7 +542,7 @@
 
             // Set the preview element dimensions
             replacementContainer.css({
-                width: container.outerWidth() + 'px',
+                //width: container.outerWidth() + 'px',
                 height: container.outerHeight() + 'px'
             });
 
@@ -562,7 +575,7 @@
             container.remove();
 
             // Enable all buttons
-            this.enableButtons('all');
+            this.enableButtons('all').enableButtons('cmdIPre');
             // Disable configured disabled buttons
             this.disableButtons(this.$options.disabledButtons);
 
@@ -944,6 +957,9 @@
                     title: 'Bold',
                     icon: { glyph: 'glyphicon glyphicon-bold', fa: 'fa fa-bold', 'fa-3': 'icon-bold' },
                     callback: function(e){
+                        if (e.$options.onBtnClick(e,'cmdBold')){
+                            return;
+                        }
                         // Give/remove ** surround the selection
                         var chunk, cursor, selected = e.getSelection(), content = e.getContent();
 
@@ -967,6 +983,9 @@
 
                         // Set the cursor
                         e.setSelection(cursor,cursor+chunk.length);
+                        if (e.$options.onAfterBtnClick(e,'cmdBold')){
+                            return;
+                        }
                     }
                 },{
                     name: 'cmdItalic',
@@ -974,6 +993,9 @@
                     hotkey: 'Ctrl+I',
                     icon: { glyph: 'glyphicon glyphicon-italic', fa: 'fa fa-italic', 'fa-3': 'icon-italic' },
                     callback: function(e){
+                        if (e.$options.onBtnClick(e,'cmdItalic')){
+                            return;
+                        }
                         // Give/remove * surround the selection
                         var chunk, cursor, selected = e.getSelection(), content = e.getContent();
 
@@ -997,6 +1019,9 @@
 
                         // Set the cursor
                         e.setSelection(cursor,cursor+chunk.length);
+                        if (e.$options.onAfterBtnClick(e,'cmdItalic')){
+                            return;
+                        }
                     }
                 },{
                     name: 'cmdHeading',
@@ -1004,6 +1029,9 @@
                     hotkey: 'Ctrl+H',
                     icon: { glyph: 'glyphicon glyphicon-header', fa: 'fa fa-header', 'fa-3': 'icon-font' },
                     callback: function(e){
+                        if (e.$options.onBtnClick(e,'cmdHeading')){
+                            return;
+                        }
                         // Append/remove ### surround the selection
                         var chunk, cursor, selected = e.getSelection(), content = e.getContent(), pointer, prevChar;
 
@@ -1031,6 +1059,9 @@
 
                         // Set the cursor
                         e.setSelection(cursor,cursor+chunk.length);
+                        if (e.$options.onAfterBtnClick(e,'cmdHeading')){
+                            return;
+                        }
                     }
                 }]
             },{
@@ -1041,6 +1072,9 @@
                     hotkey: 'Ctrl+L',
                     icon: { glyph: 'glyphicon glyphicon-link', fa: 'fa fa-link', 'fa-3': 'icon-link' },
                     callback: function(e){
+                        if (e.$options.onBtnClick(e,'cmdUrl')){
+                            return;
+                        }
                         // Give [] surround the selection and prepend the link
                         var chunk, cursor, selected = e.getSelection(), content = e.getContent(), link;
 
@@ -1064,6 +1098,9 @@
                             // Set the cursor
                             e.setSelection(cursor,cursor+chunk.length);
                         }
+                        if (e.$options.onAfterBtnClick(e,'cmdUrl')){
+                            return;
+                        }
                     }
                 },{
                     name: 'cmdImage',
@@ -1071,6 +1108,9 @@
                     hotkey: 'Ctrl+G',
                     icon: { glyph: 'glyphicon glyphicon-picture', fa: 'fa fa-picture-o', 'fa-3': 'icon-picture' },
                     callback: function(e){
+                        if (e.$options.onBtnClick(e,'cmdImage')){
+                            return;
+                        }
                         // Give ![] surround the selection and prepend the image link
                         var chunk, cursor, selected = e.getSelection(), content = e.getContent(), link;
 
@@ -1096,6 +1136,10 @@
 
                             // Set the cursor
                             e.setSelection(cursor,cursor+chunk.length);
+
+                        }
+                        if (e.$options.onAfterBtnClick(e,'cmdImage')){
+                            return;
                         }
                     }
                 }]
@@ -1107,6 +1151,9 @@
                     title: 'Unordered List',
                     icon: { glyph: 'glyphicon glyphicon-list', fa: 'fa fa-list', 'fa-3': 'icon-list-ul' },
                     callback: function(e){
+                        if (e.$options.onBtnClick(e,'cmdList')){
+                            return;
+                        }
                         // Prepend/Give - surround the selection
                         var chunk, cursor, selected = e.getSelection(), content = e.getContent();
 
@@ -1145,6 +1192,9 @@
 
                         // Set the cursor
                         e.setSelection(cursor,cursor+chunk.length);
+                        if (e.$options.onAfterBtnClick(e,'cmdList')){
+                            return;
+                        }
                     }
                 },
                     {
@@ -1153,7 +1203,9 @@
                         title: 'Ordered List',
                         icon: { glyph: 'glyphicon glyphicon-th-list', fa: 'fa fa-list-ol', 'fa-3': 'icon-list-ol' },
                         callback: function(e) {
-
+                            if (e.$options.onBtnClick(e,'cmdListO')){
+                                return;
+                            }
                             // Prepend/Give - surround the selection
                             var chunk, cursor, selected = e.getSelection(), content = e.getContent();
 
@@ -1191,6 +1243,9 @@
 
                             // Set the cursor
                             e.setSelection(cursor,cursor+chunk.length);
+                            if (e.$options.onAfterBtnClick(e,'cmdListO')){
+                                return;
+                            }
                         }
                     },
                     {
@@ -1199,6 +1254,9 @@
                         title: 'Code',
                         icon: { glyph: 'glyphicon glyphicon-asterisk', fa: 'fa fa-code', 'fa-3': 'icon-code' },
                         callback: function(e) {
+                            if (e.$options.onBtnClick(e,'cmdCode')){
+                                return;
+                            }
                             // Give/remove ** surround the selection
                             var chunk, cursor, selected = e.getSelection(), content = e.getContent();
 
@@ -1230,6 +1288,9 @@
 
                             // Set the cursor
                             e.setSelection(cursor,cursor+chunk.length);
+                            if (e.$options.onAfterBtnClick(e,'cmdCode')){
+                                return;
+                            }
                         }
                     },
                     {
@@ -1238,6 +1299,9 @@
                         title: 'Quote',
                         icon: { glyph: 'glyphicon glyphicon-comment', fa: 'fa fa-quote-left', 'fa-3': 'icon-quote-left' },
                         callback: function(e) {
+                            if (e.$options.onBtnClick(e,'cmdQuote')){
+                                return;
+                            }
                             // Prepend/Give - surround the selection
                             var chunk, cursor, selected = e.getSelection(), content = e.getContent();
 
@@ -1277,6 +1341,9 @@
 
                             // Set the cursor
                             e.setSelection(cursor,cursor+chunk.length);
+                            if (e.$options.onAfterBtnClick(e,'cmdQuote')){
+                                return;
+                            }
                         }
                     }]
             },{
@@ -1290,6 +1357,9 @@
                     btnClass: 'btn btn-default btn-sm',
                     icon: { glyph: 'glyphicon glyphicon-eye-open', fa: 'fa fa-search', 'fa-3': 'icon-search' },
                     callback: function(e){
+                        if (e.$options.onBtnClick(e,'cmdPreview')){
+                            return;
+                        }
                         // Check the preview mode and toggle based on this flag
                         var isPreview = e.$isPreview,content;
 
@@ -1298,6 +1368,9 @@
                             e.showPreview();
                         } else {
                             e.hidePreview();
+                        }
+                        if (e.$options.onAfterBtnClick(e,'cmdPreview')){
+                            return;
                         }
                     }
                 }]
@@ -1324,6 +1397,11 @@
             }
         },
 
+        /* default Widget Hook */
+        onBtnClick:function(e,name){
+        },  onAfterBtnClick:function(e,name){
+        },
+        onFullScreenChanged:function(e,onFullScreenChanged){},
         /* Events hook */
         onShow: function (e) {},
         onPreview: function (e) {},

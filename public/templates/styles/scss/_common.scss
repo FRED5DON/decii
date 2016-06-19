@@ -35,6 +35,14 @@
 
 }
 
+textarea{
+  border-width: 0;
+  &:focus,&:active{
+    box-shadow: none;
+    outline: none;
+  }
+}
+
 //搜索框样式
 input.searchBox{
   @extend %background-transparent;
