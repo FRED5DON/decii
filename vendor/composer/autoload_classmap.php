@@ -9,6 +9,7 @@ return array(
     'Decii\\App\\Authorize\\VerifyCodeTiz' => $baseDir . '/app/Http/Controller/User/AuthorizeTiz/VerifyCodeTiz.php',
     'Decii\\App\\Controllers\\API\\ConfigController' => $baseDir . '/app/Http/Controller/Env/ConfigController.php',
     'Decii\\App\\Controllers\\API\\ManaController' => $baseDir . '/app/Http/Controller/Article/ManaController.php',
+    'Decii\\App\\Controllers\\API\\ServoController' => $baseDir . '/app/Http/Controller/Article/ServoController.php',
     'Decii\\App\\Controllers\\API\\UserController' => $baseDir . '/app/Http/Controller/User/UserController.php',
     'Decii\\App\\Controllers\\BaseController' => $baseDir . '/app/Http/Controller/Base/BaseController.php',
     'Decii\\App\\Controllers\\Controller' => $baseDir . '/app/Http/Controller/Base/Controller.php',

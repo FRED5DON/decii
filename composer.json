@@ -1,7 +1,8 @@
 {
   "require": {
     "filp/whoops": "*",
-    "twbs/bootstrap":"*"
+    "twbs/bootstrap":"*",
+    "qiniu/php-sdk": "^7.0"
   },
   "autoload": {
     "classmap": [

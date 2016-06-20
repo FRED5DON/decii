@@ -7,7 +7,9 @@
 
 $path_dir_templates = './public/templates/';
 $map = include_once 'Lang.php';
+$build = include_once 'build.php';
 $lang = $map['currentLang'];
+$qiniuToken=$build['QiNiu_token'];
 
 ?>
 <link rel="shortcut icon" href="<?php echo $path_dir_templates; ?>favicon.ico"/>
