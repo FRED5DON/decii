@@ -88,9 +88,7 @@
                                            placeholder="请填入网络图片地址(如: http://www.freddon.com/logo.png )">
                                 </div>
                                 <div class="form-group">
-                                    <input id="token" name="token" class="ipt" value="<?= $qiniuToken ?>" hidden/>
-                                    <input id="key" name="key" class="ipt" value="3244" hidden/>
-                                    <input id="pick_file" type="file"/>
+                                    <input id="pick_file" type="file"/><br/>
                                     <input id="pic_width" type="number" placeholder="图片宽度"/>
                                     <input id="pic_height" type="number" placeholder="图片高度"/>
                                 </div>
@@ -137,18 +135,6 @@
 <script src="<?= $path_dir_templates ?>scripts/servo/qiniu.js"></script>
 <script src="<?= $path_dir_templates ?>scripts/servo/plupload.full.min.js"></script>
 <script>
-
-    //    $(document).ready(function(){
-    //
-    ////        $('#fore-see').click(function(){
-    ////
-    ////            $('#content-md').html($("#content").val());
-    ////            $('#content-md').markdown();
-    ////            $("#content").attr('data-provide','markdown-editable');
-    ////
-    ////        });
-    //
-    //    });
 
     ;
     (function ($) {

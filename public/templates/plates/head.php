@@ -7,9 +7,7 @@
 
 $path_dir_templates = './public/templates/';
 $map = include_once 'Lang.php';
-$build = include_once 'build.php';
 $lang = $map['currentLang'];
-$qiniuToken=$build['QiNiu_token'];
 
 ?>
 <link rel="shortcut icon" href="<?php echo $path_dir_templates; ?>favicon.ico"/>
@@ -36,6 +34,12 @@ $qiniuToken=$build['QiNiu_token'];
 <style>
     body {
         padding-top: 70px;
+    }
+    .modal{
+        z-index: 1250 !important;
+    }
+    .md-editor.md-fullscreen-mode{
+        z-index: 1220 !important;
     }
 </style>
 
