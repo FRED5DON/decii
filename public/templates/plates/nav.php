@@ -1,5 +1,5 @@
 <nav class="navbar navbar-pills navbar-fixed-top">
-    <div class="container-fluid">
+    <div class="container-fluid title-bar">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
@@ -11,7 +11,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="#">
-    De'Blog
+                De'Blog
             </a>
 
         </div>
@@ -30,15 +30,17 @@
 
 
             </ul>
-            <ul class="nav navbar-nav navbar-right" role="tablist">
-                <li class="active">
+            <ul class="nav navbar-nav navbar-right <?= isset($_SESSION['token']) && isset($_COOKIE['token']) ? ($_SESSION['token'] == $_COOKIE['token'] ? "" : 'hide') : 'hide' ?>"
+                role="tablist">
+                <li <?= $_SERVER["REQUEST_URI"] != "/publish.php" ? 'class="active"' : '' ?>>
                     <a href="#"><span class="glyphicon glyphicon-th"
                                       aria-hidden="true"></span><?= $map['nav-feature'][$lang] ?><span
                             class="badge">2</span></a></li>
                 <li role="presentation"><a href="#"><span class="glyphicon glyphicon glyphicon-education"
                                                           aria-hidden="true"></span><?= $map['nav-lab'][$lang] ?><span
                             class="badge">2</span></a></li>
-                <li role="presentation"><a href="#"><span class="glyphicon glyphicon-pencil" aria-hidden="true">
+                <li role="presentation" <?= $_SERVER["REQUEST_URI"] == "/publish.php" ? 'class="active"' : '' ?>><a
+                        href="publish.php"><span class="glyphicon glyphicon-pencil" aria-hidden="true">
                     </span><?= $map['nav-write'][$lang] ?></a></li>
 
                 <li class="dropdown">
@@ -57,14 +59,29 @@
                     </ul>
 
                 </li>
-                <li class="access-entry hide">
-                    <button type="button"
-                            class="btn btn-success navbar-btn"><?= $map['nav-signup'][$lang] ?></button>
+
+            </ul>
+
+
+            <ul class="nav navbar-nav navbar-right  <?= isset($_SESSION['token']) && isset($_COOKIE['token']) ? ($_SESSION['token'] == $_COOKIE['token'] ? 'hide' : '') : '' ?>"
+                role="tablist">
+                <li class="access-entry">
+                    <a type="button" href="signup.php"
+                       class="btn btn-success navbar-btn"><?= $map['nav-signup'][$lang] ?></a>
                 </li>
-                <li class="access-entry hide">
-                    <button type="button" class="btn btn-info navbar-btn"><?= $map['nav-signin'][$lang] ?></button>
+                <li class="access-entry">
+                    <a type="button" href="signin.php"
+                       class="btn btn-info navbar-btn"><?= $map['nav-signin'][$lang] ?></a>
                 </li>
+
             </ul>
         </div><!-- /.navbar-collapse -->
+
     </div><!-- /.container-fluid -->
+    <div id="decii-global-progress" class="progress">
+        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0"
+             aria-valuemax="100" style="width: 10%">
+            <span class="sr-only">20% Complete</span>
+        </div>
+    </div>
 </nav>

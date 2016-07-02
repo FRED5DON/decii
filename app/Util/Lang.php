@@ -133,6 +133,10 @@ return [
         'en' => 'Existing account? Click here to ',
         'zh' => '已有账号？立即',
         'ja' => 'アカウントはありますか？すぐに',
+    ),'direct-signup-info' => array(
+        'en' => 'No account? Click here to ',
+        'zh' => '还没有账号？立即',
+        'ja' => 'まだアカウントがありません？すぐに',
     ),
     //note Publish
     'title' => array(

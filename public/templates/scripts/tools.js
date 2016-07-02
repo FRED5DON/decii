@@ -44,12 +44,12 @@ $(document).ready(function () {
 
         envir.setCookie = function (c_name, value, expiredays) {
             var exdate = new Date();
-            var exp='';
-            if(expiredays>0){
+            var exp = '';
+            if (expiredays > 0) {
                 exdate.setDate(exdate.getDate() + expiredays);
-                exp=exdate.toGMTString();
-            }else{
-                exp=-1;
+                exp = exdate.toGMTString();
+            } else {
+                exp = -1;
             }
             document.cookie = c_name + "=" + encodeURIComponent(value) +
                 ((expiredays == null) ? "" : ";expires=" + exp);
@@ -74,7 +74,10 @@ $(document).ready(function () {
         } else {
         }
         envir.httpProxy = envir.httpProxy || {};
-        envir.httpProxy.options = {};
+        envir.httpProxy.options = {
+            "token": envir.getCookie('token'),
+
+        };
         envir.httpProxy.ajax = function (uri, data, method, success, failure) {
             $.ajax({
                 url: uri,    //请求的url地址
@@ -89,7 +92,7 @@ $(document).ready(function () {
                 success: function (xhr, responseText, o) {
                     //请求成功时处理
                     if (typeof success == 'function') {
-                        success(xhr, responseText,o);
+                        success(xhr, responseText, o);
                     }
                 },
                 complete: function (xhr, TS) {
@@ -98,7 +101,7 @@ $(document).ready(function () {
                 error: function (xhr, responseText, o) {
                     //请求出错处理
                     if (typeof failure == 'function') {
-                        failure(xhr, responseText,o);
+                        failure(xhr, responseText, o);
                     }
                 }
             });
@@ -138,6 +141,27 @@ $(document).ready(function () {
 
         win.envir = envir;
     })(window);
+
+    $.hashcode = function (str) {
+        str = str + "";
+        /*var h = 0, off = 0;
+        var len = str.length;
+
+        for (var i = 0; i < len; i++) {
+            h = 31 * h + str.charCodeAt(off++);
+            if (h > 0x7fffffff || h < 0x80000000) {
+                h = h & 0xffffffff;
+            }
+        }*/
+        var h = 0;
+        var len = str.length;
+        var t = 2147483648;
+        for (var i = 0; i < len; i++) {
+            h = 31 * h + str.charCodeAt(i);
+            if(h > 2147483647) h %= t;//java int溢出则取模
+        }
+        return h;
+    };
 
     $.fn.md5 = function (string) {
         function md5_RotateLeft(lValue, iShiftBits) {
@@ -342,4 +366,8 @@ $(document).ready(function () {
         return (md5_WordToHex(a) + md5_WordToHex(b) + md5_WordToHex(c) + md5_WordToHex(d)).toLowerCase();
     };
 
+    $.fn.getUrlRegex=function(){
+        var reg =  /(http[s]?:\/\/([\w-]+.)+([:\d+])?(\/[\w-\.\/\?%&=]*)?)/gi;
+        return reg;
+    }
 });

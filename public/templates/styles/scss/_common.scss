@@ -1,66 +1,157 @@
 @charset "UTF-8";
 
-
 //去outline边框
-%withoutOutline{
+%withoutOutline {
   outline-style: none !important;
 }
+
 //去背景
-%background-transparent{
+%background-transparent {
   @include transparentW(0.6);
 }
 
-%gray-stroke-border-radius{
+%gray-stroke-border-radius {
   border-radius: $default-radius !important;
 }
 
-@mixin circle-corner($radius:3px){
+@mixin circle-corner($radius:3px) {
   border-radius: $radius;
   @extend %withoutOutline;
 }
 
-.center{
+.center {
   text-align: center;
-  margin:auto;
+  margin: auto;
 }
+
 //通用的button去背景
 .btn {
-  background-image:none !important;
+  background-image: none !important;
   @extend %withoutOutline;
 }
 
 //全员圆角
-.circle-corner{
+.circle-corner {
   @include circle-corner($normal-radius);
 
 }
 
-textarea{
+//全局进度条 导航栏下方
+#decii-global-progress {
+  margin-bottom: 0 !important;
+  border-radius: 0 !important;
+  height: 3px;
+  background: transparent !important;
+}
+
+.modal-global {
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: transparentize($color-black, 0.5);
+  z-index: 1989;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+//垂直水平居中
+.center-container {
+  text-align: center;
+  overflow: auto;
+  &:after, .center-blocker {
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .center-blocker {
+    max-width: 99%;
+  }
+  &:after {
+    content: '';
+    height: 100%;
+    margin-left: -0.25em;
+  }
+}
+
+//水平居中
+.center-horizontal {
+  margin: 0 auto;
+}
+
+//Note item
+.note-item-li {
+  cursor: pointer;
+  margin: 0 auto;
+  padding: 15px;
+  border-bottom: 1px solid $color-milk;
+  &:active, &:hover {
+    background: $color-lightgray;
+  }
+}
+
+textarea {
   border-width: 0;
-  &:focus,&:active{
+  &:focus, &:active {
     box-shadow: none;
     outline: none;
   }
 }
 
 //搜索框样式
-input.searchBox{
+input.searchBox {
   @extend %background-transparent;
   //@extend %gray-stroke-border-radius;
   border-radius: $normal-radius;
 }
+
 //登录注册按钮
-.access-entry{
-  & > button{
+.access-entry {
+  & > *[type='button'] {
     text-align: center;
-    display: inline;
+    display: inline-block;
     margin-left: $form-inner-spacing;
-    width:90px;
+    width: 90px;
+    padding: 6px;
     @include circle-corner($normal-radius);
     @extend %withoutOutline;
   }
-  &:nth-last-child(1){
+  &:nth-last-child(1) {
     margin-right: $form-inner-spacing;
   }
 }
 
+//markdown编辑器
+.md-editor, .md-editor > .md-header {
+  border-top-left-radius: $default-radius;
+  border-top-right-radius: $default-radius;
+}
+
+.md-editor, .md-editor .md-footer {
+  border-bottom-left-radius: $default-radius;
+  border-bottom-right-radius: $default-radius;
+}
+
+//圆头像 24x24
+.circle-image-24 {
+  height: 24px;
+  width: 24px;
+  border-radius: 12px;
+}
+
+.circle-image-48 {
+  height: 48px;
+  width: 48px;
+  border-radius: 24px;
+}
+
+//通用img横向margin
+.common-hoz-margin {
+  margin: 0 $icon-spacing;
+}
+//
+.resizable-vertical{
+  resize: vertical !important; // Options: horizontal, vertical, both
+  overflow: auto;
+}

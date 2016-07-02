@@ -27,8 +27,8 @@ class DBCon
             'database' => env('DB_DATABASE', 'qdm122976243_db'),
             'username' => env('DB_USERNAME', 'fred'),
             'password' => env('DB_PASSWORD', '12345'),
-            'charset' => 'utf8',
-            'collation' => 'utf8_unicode_ci',
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
             'strict' => false
 
@@ -53,6 +53,8 @@ class DBCon
             if (mysqli_connect_errno(self::$conn)) {
                 echo "Failed to connect to MySQL: " . mysqli_connect_error();
             }
+            mysqli_query(self::$conn,"set character set utf8mb4");//读库
+            mysqli_query(self::$conn,"set names utf8mb4");//写库
         }
         return self::$conn;
     }
@@ -65,7 +67,7 @@ class DBCon
         }
         $result = $r->fetch_all(MYSQLI_ASSOC);
         if (isset($result)) {
-            return json_encode($result);
+            return $result;
         }
         return [];
     }
@@ -94,6 +96,10 @@ class DBCon
         return array(
             'affected_rows' => self::getCon()->affected_rows
         );
+    }
+
+    public static function toJSONString($arr){
+        json_encode($arr);
     }
 
 }

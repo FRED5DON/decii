@@ -12,21 +12,20 @@ class Response extends HttpMessage
 {
 
 
-    public static function outJson($msg = null, $array = [], $params = null)
+    public static function outJson($msg = null, $array = [], $params = null, $paramsKey = '')
     {
-        return json_encode(self::outModel($msg, $array, $params));
+        return json_encode(self::outModel($msg, $array, $params, $paramsKey));
     }
 
 
-    private static function outModel($msg = null, $data = [], $params = null)
+    private static function outModel($msg = null, $data = [], $params = null, $paramsKey = null)
     {
-
         $out = array();
         if ($data) {
             $out['data'] = $data;
         }
         if ($params) {
-            $out['tmp'] = $params;
+            $out[$paramsKey ? $paramsKey : 'tmp'] = $params;
         }
         if ($msg) {
             $out['msg'] = self::outMsg($msg);

@@ -1,31 +1,28 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <?php include_once 'plates/head.php' ?>
-    <link rel="stylesheet" type="text/css" href="<?= $path_dir_templates ?>styles/plugin/bootstrap-markdown.min.css"/>
-    <!--    <link href="//cdn.bootcss.com/bootstrap-markdown/2.9.0/css/bootstrap-markdown.min.css" rel="stylesheet">-->
-    <style>
-        textarea#content {
-            padding: 6px;
-        }
+<?php include_once 'plates/head.php' ?>
+<link rel="stylesheet" type="text/css" href="<?= $path_dir_templates ?>styles/plugin/bootstrap-markdown.min.css"/>
+<!--    <link href="//cdn.bootcss.com/bootstrap-markdown/2.9.0/css/bootstrap-markdown.min.css" rel="stylesheet">-->
+<style>
+    textarea#content {
+        padding: 6px;
+    }
 
-        .write-panel {
-            margin: auto 10px;
-        }
+    .write-panel {
+        margin: auto 10px;
+    }
 
-        div.md-preview {
-            overflow-y: auto;
-        }
+    div.md-preview {
+        overflow-y: auto;
+    }
 
-        .container-fluid, .container-fluid .row {
-            height: 100% !important;
-        }
+    .container-fluid, .container-fluid .row {
+        height: 100% !important;
+    }
 
-        .md-editor.md-fullscreen-mode .md-input,
-        .md-editor.md-fullscreen-mode .md-input:focus, .md-editor.md-fullscreen-mode .md-input:hover {
-            background: #dff0d8;
-        }
-    </style>
+    .md-editor.md-fullscreen-mode .md-input,
+    .md-editor.md-fullscreen-mode .md-input:focus, .md-editor.md-fullscreen-mode .md-input:hover {
+        background: #dff0d8;
+    }
+</style>
 </head>
 <body class="decii theme-normal">
 <!--<h1>你好，世界！</h1>-->
@@ -40,22 +37,45 @@
 
 
     <div class="row">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-8">
-            <form id="pub-article" class="form-horizontal write-panel" action="/article/make">
+        <div class="col-sm-8 col-sm-offset-2">
+            <form id="pub-article"
+                  enctype="application/x-www-form-urlencoded"
+                  class="form-horizontal write-panel" action="/article/make">
                 <div class="form-group">
                     <label for="title"><?= $map['title'][$lang] ?></label>
-                    <input type="text" class="form-control" name="title"
-                           placeholder="<?= $map['title'][$lang] ?>"/>
+                    <div class="input-group">
+                        <div class="input-group-btn dropdown-spinner-event">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false"><a href="#" data-value="1">-求助-</a><span
+                                    class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" data-value="1">-求助-</a></li>
+                                <li><a href="#" data-value="2">-分享-</a></li>
+                                <li><a href="#" data-value="3">-文集-</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#" data-value="3">-默认-</a></li>
+                            </ul>
+                        </div><!-- /btn-group -->
+                        <input type="text" class="form-control hide" name="category"
+                               hidden="hidden"/>
+                        <input type="text" class="form-control hide" name="categoryText"
+                               hidden="hidden"/>
+                        <input type="text" class="form-control hide" name="udpics"
+                               hidden="hidden"/>
+                        <input type="text" class="form-control" name="title"
+                               placeholder="<?= $map['title'][$lang] ?>"/>
+                    </div><!-- /input-group -->
                 </div>
+
+
                 <div class="form-group">
                     <label for="remark"><?= $map['remark'][$lang] ?></label>
-                    <input type="text" class="form-control" id="remark" name="remark"
-                           placeholder="<?= $map['remark'][$lang] ?>">
+                    <textarea class="form-control" class="form-control resizable-vertical" id="remark" name="remark" rows="3"
+                              placeholder="<?= $map['remark'][$lang] ?>"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="content"><?= $map['content'][$lang] ?></label>
-                    <textarea id="content" name="content" data-provide="markdown" rows="10"></textarea>
+                    <textarea class="resizable-vertical" id="content" name="content" data-provide="markdown" height="240" maxlength="3000"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="keyword"><?= $map['keyword'][$lang] ?></label>
@@ -115,7 +135,6 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-2"></div>
     </div><!-- /.row -->
 </div><!-- /.container -->
 
@@ -139,8 +158,57 @@
     ;
     (function ($) {
 
-        var _count = 30000;
-        var mDe;
+        var interval;
+        var cache_key = 'note_cache';
+
+        renderCache();
+        function renderCache() {
+            var result = localStorage.getItem(cache_key);
+            if (result) {
+                var res = JSON.parse(result);
+                var cache = res.content || {};
+                $('input[name="udpics"]').val(cache['udpics'] || "");
+                $('input[name="title"]').val(cache['title'] || "");
+                $("textarea[name='content']").val(cache['content'] || "");
+                $("input[name='keyword']").val(cache['keyword'] || "");
+                $("textarea[name='remark']").val(cache['remark'] || "");
+                $('input[name="category"]').val(cache['category'] || "");
+                $('input[name="categoryText"]').val(cache['categoryText'] || "");
+                $('.dropdown-spinner-event button a').text(cache['categoryText'] || "");
+                $('.dropdown-spinner-event button a').attr('data-value', cache['category'] || "");
+                console.info("Cache = %s", result);
+            }
+        }
+
+        function cacheStart() {
+            if (interval) {
+                clearInterval(interval);
+            }
+            interval = window.setInterval(function () {
+                var res = localStorage.getItem(cache_key);
+                var content = $('form#pub-article').serializeJSON();
+                var hashCode = JSON.stringify(content).length;
+                var jsonObject;
+                if (!res) {
+                    jsonObject = {};
+                } else {
+                    jsonObject = JSON.parse(res);
+                }
+                if (jsonObject.hashCode != hashCode) {
+                    jsonObject.hashCode = hashCode;
+                    jsonObject.content = content;
+                    localStorage.setItem(cache_key, JSON.stringify(jsonObject))
+                    console.info("Cache 成功 = %s", jsonObject.hashCode);
+                }
+
+            }, 30000);
+        }
+
+        cacheStart();
+
+        var _count = 3000;
+        var mDe, uploaded_pics = [];
+        var offsetHeight = 12;
         $("#content").markdown({
             autofocus: true,
             savable: false,
@@ -148,12 +216,20 @@
             language: '<?= $map['currentLang'] ?>',
             disabledButtons: ['cmdIPre'],
             onChange: function (e) {
+                if (e.$isFullscreen && e.$isPreview) {
+                    $('.md-preview').html(e.parseContent());
+                }
                 if (e.getContent().length <= _count) {
                     $("#content-footer").attr("class", 'text-success');
                 } else {
                     $("#content-footer").attr("class", 'text-danger');
                 }
                 $("#content-footer").text(e.getContent().length + " / " + _count);
+                /*if ($('#content').height() < 800 && $('#content')[0].scrollHeight - $('#content').height() >= offsetHeight) {
+                    $('#content').css('height',$('#content')[0].scrollHeight-offsetHeight);
+                }else{
+                    $('#content').css('height',$('#content')[0].scrollHeight-offsetHeight);
+                }*/
             },
             onBtnClick: function (e, name) {
                 if (name == 'cmdImage') {
@@ -192,11 +268,6 @@
                     } else {
                         e.disableButtons('cmdIPre');
                     }
-                }
-            },
-            onChange: function (e) {
-                if (e.$isFullscreen && e.$isPreview) {
-                    $('.md-preview').html(e.parseContent());
                 }
             },
             onFullScreenChanged: function (e, isFullScreen) {
@@ -265,7 +336,7 @@
 
         $("#insertLink").click(function () {
             $("#file-progress").css("width", '0%');
-            generalPicUrl(320,240);
+            generalPicUrl(320, 240);
             var link = $("input#insertedLinkValue").val();
             var opts = [
 
@@ -308,8 +379,16 @@
 
         });
 
-        $('form button#publish').click(function () {
+        $('.dropdown-spinner-event .dropdown-menu a').click(function (e) {
+            $('input[name="category"]').val(e.target.getAttribute('data-value'));
+            $('input[name="categoryText"]').val(e.target.innerText);
+            $('.dropdown-spinner-event button a').text(e.target.innerText);
+            $('.dropdown-spinner-event button a').attr('data-value', e.target.getAttribute('data-value'));
+        });
 
+
+        $('form button#publish').click(function () {
+            $('input[name="udpics"]').val(uploaded_pics.join(","));
             var v = [
                 {
                     "value": $('input[name="title"]').val(),
@@ -342,9 +421,11 @@
             if (s) {
                 console.log(s['msg']);
             } else {
-                envir.httpProxy.ajax($('form#pub-article').attr('action'), $('form').serialize(), 'POST',
+                envir.httpProxy.ajax($('form#pub-article').attr('action'), $('form#pub-article').serialize(), 'POST',
                     function (xhr, res, o) {
                         console.log(o.responseText);
+//                        localStorage.clear();
+                        clearInterval(interval);
 //                            showNotify($.parseJSON(o.responseText)['msg']['msg']);
                     },
                     function (xhr, res, o) {
@@ -360,57 +441,6 @@
         var Qiniu_UploadUrl = "http://o8wa1uopp.bkt.clouddn.com";
         var active_pic;
 
-        /*$("#pick_file").change(function(){
-         //普通上传
-         var Qiniu_upload = function(f, token, key) {
-         var xhr = new XMLHttpRequest();
-         xhr.open('POST', Qiniu_UploadUrl, true);
-         var formData, startDate;
-         formData = new FormData();
-         if (key !== null && key !== undefined) formData.append('key', key);
-         formData.append('token', token);
-         formData.append('file', f);
-         var taking;
-         xhr.upload.addEventListener("progress", function(evt) {
-         if (evt.lengthComputable) {
-         var nowDate = new Date().getTime();
-         taking = nowDate - startDate;
-         var x = (evt.loaded) / 1024;
-         var y = taking / 1000;
-         var uploadSpeed = (x / y);
-         var formatSpeed;
-         if (uploadSpeed > 1024) {
-         formatSpeed = (uploadSpeed / 1024).toFixed(2) + "Mb\/s";
-         } else {
-         formatSpeed = uploadSpeed.toFixed(2) + "Kb\/s";
-         }
-         var percentComplete = Math.round(evt.loaded * 100 / evt.total);
-         //                        progressbar.progressbar("value", percentComplete);
-         // console && console.log(percentComplete, ",", formatSpeed);
-         }
-         }, false);
-
-         xhr.onreadystatechange = function(response) {
-         if (xhr.readyState == 4 && xhr.status == 200 && xhr.responseText != "") {
-         var blkRet = JSON.parse(xhr.responseText);
-         console && console.log(blkRet);
-         $("#dialog").html(xhr.responseText).dialog();
-         } else if (xhr.status != 200 && xhr.responseText) {
-
-         }
-         };
-         startDate = new Date().getTime();
-         $("#progressbar").show();
-         xhr.send(formData);
-         };
-         var token = $("#token").val();
-         if ($("#pick_file")[0].files.length > 0 && token != "") {
-         Qiniu_upload($("#pick_file")[0].files[0], token, $("#key").val());
-         } else {
-         console && console.log("form input error");
-         }
-         });*/
-
 
         var uploader = Qiniu.uploader({
             runtimes: 'html5,flash,html4',      // 上传模式,依次退化
@@ -418,7 +448,7 @@
             // 在初始化时，uptoken, uptoken_url, uptoken_func 三个参数中必须有一个被设置
             // 切如果提供了多个，其优先级为 uptoken > uptoken_url > uptoken_func
             // 其中 uptoken 是直接提供上传凭证，uptoken_url 是提供了获取上传凭证的地址，如果需要定制获取 uptoken 的过程则可以设置 uptoken_func
-//             uptoken : '<?//=$qiniuToken?>//', // uptoken 是上传凭证，由其他程序生成
+//             uptoken : '//', // uptoken 是上传凭证，由其他程序生成
             uptoken_url: '/qiniu/token',         // Ajax 请求 uptoken 的 Url，**强烈建议设置**（服务端提供）
             // uptoken_func: function(file){    // 在需要获取 uptoken 时，该方法会被调用
             //    // do something
@@ -467,7 +497,8 @@
                 'FileUploaded': function (up, file, info) {
                     var ifo = JSON.parse(info);
                     active_pic = ifo.key;
-                    generalPicUrl(320,240);
+                    uploaded_pics.push(active_pic);
+                    generalPicUrl(320, 240);
                     // 每个文件上传成功后,处理相关的事情
                     // 其中 info 是文件上传成功后，服务端返回的json，形式如
                     // {
@@ -508,7 +539,7 @@
         }
 
 
-    }(jQuery))
+    })(jQuery);
 
 </script>
 

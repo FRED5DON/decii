@@ -31,17 +31,29 @@ class UserController extends BaseController
             die(Response::outJson(ODataMsgModel::make(206, "用户名有误", 1)));
         }
         $result = DBCon::query("select * from sys_user where (`usrname`='$userName' and `password`='$usrpassword')");
-        if ($result == '[]') {
+        if (!$result) {
+            $this->onRecord(-1,"登录","尝试使用".$userName."进行登录");
             die(Response::outJson(ODataMsgModel::make(206, "用户名或密码错误", 1)));
         } else {
             //生成token放head
-            $token=ConfigController::mkToken($userName,$usrpassword);
-            header("TOKEN:".$token);
-            echo (Response::outJson(ODataMsgModel::make(200, "登陆成功", 1), $result,array('url'=>'index.php')));
+            $this->token = ConfigController::mkToken($userName, $usrpassword);
+            $user = $result[0];
+            $sql="update sys_user set _token = '$this->token',_tokenExpireTime=DATE_ADD(curdate(), INTERVAL 7 DAY)  where (`id`='" . $user['id'] . "')";
+            $updateToken = DBCon::update($sql);
+            if ($updateToken['affected_rows'] >= 0) {
+                $this->onRecord($user['id'],"登录");
+                Request::SESSION_PUT('token',$this->token);
+                echo(Response::outJson(ODataMsgModel::make(200, "登录成功", 1), $this->token, array('url' => 'index.php')));
+
+            } else {
+                echo(Response::outJson(ODataMsgModel::make(209, "登录出错了，请重新登录", 1), ""));
+                $this->onRecord($user['id'],"登录","尝试使用".$userName."进行登录");
+            }
+
+
         }
 
     }
-
 
 
     public function signup()
@@ -69,9 +81,13 @@ class UserController extends BaseController
             die(Response::outJson(ODataMsgModel::make(206, "密码有误", 1)));
         }
         $result = DBCon::query("select * from sys_user where (`usrname`='$userName')");
-        if ($result == '[]') {
+        if (!$result) {
             $rows = DBCon::insert("INSERT INTO sys_user(`usrname`,`email`,`password`) VALUES('$userName','$email',md5('$usrpwd'))");
-            echo json_encode($rows);
+            if($rows['id']){
+                DBCon::insert("insert into user (`id`) VALUES('".$rows['id']."')");
+            }
+            $this->onRecord($rows['id'],"注册");
+            die(Response::outJson(ODataMsgModel::make(200, "注册成功", 1)));
         } else {
             die(Response::outJson(ODataMsgModel::make(404, "用户名已存在", 1), $result));
         }

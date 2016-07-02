@@ -1,4 +1,5 @@
 <?php namespace Decii\App\Controllers;
+
 /**
  * Created by PhpStorm.
  * User: fred
@@ -9,12 +10,16 @@
 use Decii\App\Controllers\Controller;
 use Decii\App\Core\Response;
 use Decii\App\Model\ODataMsgModel;
+use Decii\App\Util\DBCon;
 
-class BaseController implements Controller{
+class BaseController implements Controller
+{
 
     private $index;
-    private  static $count;
+    protected $token;
+    private static $count;
     protected $needAuthorized;
+
     public function __construct()
     {
 
@@ -22,33 +27,53 @@ class BaseController implements Controller{
 //        if(!$this->index){
 //            $this->index=0;
 //        }
-        if(!self::$count){
-            self::$count=0;
+        if (!self::$count) {
+            self::$count = 0;
         }
-        if($this->needAuthorized){
+        if ($this->needAuthorized) {
             $this->onReceiveRequest();
         }
     }
 
-    public function index(){
+    public function index()
+    {
 //        $this->index+=1;
-        self::$count+=1;
+        self::$count += 1;
 //        echo __METHOD__.$this->index."<br/>";
-        echo __METHOD__.self::$count."<br/>";
+        echo __METHOD__ . self::$count . "<br/>";
+    }
+
+
+    function getUser($token)
+    {
+        $users = DBCon::query("select * from sys_user where _token='$token'");
+        if (isset($users[0])) {
+            return $users[0];
+        }
+        return null;
+    }
+
+    function countRecords($table)
+    {
+        if ($table) {
+            $res= DBCon::query("select COUNT(1) as total from ".$table);
+            return $res[0];
+        }
+        return null;
     }
 
     //ip
     public function onReceiveRequest()
     {
         // TODO: Implement onReceiveRequest() method.
-        if(!$this->onHooked()){
+        if (!$this->onHooked()) {
 
         }
-        if(!$this->didAuthorized()){
-            $resp=Response::outJson(
-                ODataMsgModel::make('200','RECC',1),
-            [],
-            null);
+        if (!$this->didAuthorized()) {
+            $resp = Response::outJson(
+                ODataMsgModel::make('200', 'RECC', 1),
+                [],
+                null);
 
 //            $uri= 'http://'.$_ENV['REMOTE_ADDR'].':'.$_ENV['SERVER_PORT'].$_ENV['REQUEST_URI'];
 //            var_dump(json_encode(headers_list()));
@@ -63,7 +88,7 @@ class BaseController implements Controller{
         return false;
     }
 
-    public function didAuthorized()
+    public function didAuthorized($token)
     {
         // TODO: Implement didAuthorized() method.
         return false;
@@ -88,4 +113,13 @@ class BaseController implements Controller{
     {
         // TODO: Implement onResponse() method.
     }
+
+    public function onRecord($bundleId, $oper, $desc = '')
+    {
+        if ($bundleId) {
+            DBCon::insert("insert into trace (bid,operation,ip,`desc`) VALUES(1,'$oper','" . $_SERVER['REMOTE_ADDR'] . "','" . $desc . "')");
+        }
+    }
+
+
 }

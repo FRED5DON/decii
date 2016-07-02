@@ -1,85 +1,126 @@
-/*
-Error: Undefined mixin 'box-shadow'.
-        on line 66 of bootstrap-markdown.scss, in `box-shadow'
-        from line 66 of bootstrap-markdown.scss
+/**
+ * Bootstrap-Markdown.less
+ *
+ * @author Taufan Aditya @taufanaditya
+ * @copyright 2013-2016 Taufan Aditya
+ */
+.md-editor {
+  display: block;
+  border: 1px solid #ddd; }
+  .md-editor > .md-header, .md-editor .md-footer {
+    display: block;
+    padding: 6px 4px;
+    background: #f5f5f5; }
+  .md-editor > .md-header {
+    margin: 0; }
+  .md-editor > .md-preview {
+    background: #fff;
+    border-top: 1px dashed #ddd;
+    border-bottom: 1px dashed #ddd;
+    min-height: 10px;
+    overflow: auto; }
+  .md-editor > textarea {
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-size: 14px;
+    outline: 0;
+    outline: thin dotted  \9;
+    /* IE6-9 */
+    margin: 0;
+    display: block;
+    padding: 0;
+    width: 100%;
+    border: 0;
+    border-top: 1px dashed #ddd;
+    border-bottom: 1px dashed #ddd;
+    border-radius: 0;
+    box-shadow: none;
+    background: #eeeeee; }
+    .md-editor > textarea:focus {
+      box-shadow: none;
+      background: #fff; }
+  .md-editor.active {
+    border-color: #66afe9;
+    outline: 0; }
+  .md-editor .md-controls {
+    float: right;
+    padding: 3px; }
+    .md-editor .md-controls .md-control {
+      right: 5px;
+      color: #bebebe;
+      padding: 3px 3px 3px 10px; }
+      .md-editor .md-controls .md-control:hover {
+        color: #333; }
+  .md-editor.md-fullscreen-mode {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99999;
+    padding: 60px 30px 15px;
+    background: #fff !important;
+    border: 0 !important; }
+    .md-editor.md-fullscreen-mode .md-footer {
+      display: none; }
+    .md-editor.md-fullscreen-mode .md-input,
+    .md-editor.md-fullscreen-mode .md-preview {
+      margin: 0 auto !important;
+      height: 100% !important;
+      font-size: 20px !important;
+      padding: 20px !important;
+      color: #999;
+      line-height: 1.6em !important;
+      resize: none !important;
+      box-shadow: none !important;
+      background: #fff !important;
+      border: 0 !important; }
+    .md-editor.md-fullscreen-mode .md-preview {
+      color: #333;
+      overflow: auto; }
+    .md-editor.md-fullscreen-mode .md-input:hover, .md-editor.md-fullscreen-mode .md-input:focus {
+      color: #333;
+      background: #fff !important; }
+    .md-editor.md-fullscreen-mode .md-header {
+      background: none;
+      text-align: center;
+      position: fixed;
+      width: 100%;
+      top: 20px; }
+    .md-editor.md-fullscreen-mode .btn-group {
+      float: none; }
+    .md-editor.md-fullscreen-mode .btn {
+      border: 0;
+      background: none;
+      color: #b3b3b3; }
+      .md-editor.md-fullscreen-mode .btn:hover, .md-editor.md-fullscreen-mode .btn:focus, .md-editor.md-fullscreen-mode .btn.active, .md-editor.md-fullscreen-mode .btn:active {
+        box-shadow: none;
+        color: #333; }
+    .md-editor.md-fullscreen-mode .md-fullscreen-controls {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      text-align: right;
+      z-index: 1002;
+      display: block; }
+      .md-editor.md-fullscreen-mode .md-fullscreen-controls a {
+        color: #b3b3b3;
+        clear: right;
+        margin: 10px;
+        width: 30px;
+        height: 30px;
+        text-align: center; }
+        .md-editor.md-fullscreen-mode .md-fullscreen-controls a:hover {
+          color: #333;
+          text-decoration: none; }
+    .md-editor.md-fullscreen-mode .md-editor {
+      height: 100% !important;
+      position: relative; }
+  .md-editor .md-fullscreen-controls {
+    display: none; }
 
-61:   $color: $input-border-focus;
-62:   $color-rgba: rgba(red($color), green($color), blue($color), .6);
-63:   &.active {
-64:     border-color: $color;
-65:     outline: 0;
-66:     @include box-shadow(inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px $color-rgba);
-67:   }
-68: 
-69:   .md-controls {
-70:     float: right;
-71:     padding: 3px;
+.md-nooverflow {
+  overflow: hidden;
+  position: fixed;
+  width: 100%; }
 
-Backtrace:
-bootstrap-markdown.scss:66:in `box-shadow'
-bootstrap-markdown.scss:66
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:351:in `block in visit_mixin'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/stack.rb:98:in `block in with_mixin'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/stack.rb:115:in `with_frame'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/stack.rb:98:in `with_mixin'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:349:in `visit_mixin'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:36:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `block in with_base'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/stack.rb:115:in `with_frame'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `with_base'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `block (2 levels) in visit_rule'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `map'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `block in visit_rule'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:181:in `with_environment'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:431:in `visit_rule'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:36:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `block in with_base'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/stack.rb:115:in `with_frame'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `with_base'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `block (2 levels) in visit_rule'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `map'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:433:in `block in visit_rule'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:181:in `with_environment'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:431:in `visit_rule'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:36:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `block in visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `block in with_base'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/stack.rb:115:in `with_frame'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/stack.rb:79:in `with_base'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:160:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:52:in `map'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:52:in `visit_children'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:169:in `block in visit_children'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:181:in `with_environment'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:168:in `visit_children'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:36:in `block in visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:188:in `visit_root'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/base.rb:36:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:159:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/visitors/perform.rb:8:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/root_node.rb:36:in `css_tree'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/tree/root_node.rb:29:in `render_with_sourcemap'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/engine.rb:381:in `_render_with_sourcemap'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/engine.rb:298:in `render_with_sourcemap'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:492:in `update_stylesheet'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:209:in `each'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/plugin.rb:82:in `update_stylesheets'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/exec/sass_scss.rb:340:in `watch_or_update'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/exec/sass_scss.rb:51:in `process_result'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/exec/base.rb:52:in `parse'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/lib/sass/exec/base.rb:19:in `parse!'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.22/bin/scss:13:in `<top (required)>'
-/usr/local/bin/scss:23:in `load'
-/usr/local/bin/scss:23:in `<main>'
-*/
-body:before {
-  white-space: pre;
-  font-family: monospace;
-  content: "Error: Undefined mixin 'box-shadow'.\A         on line 66 of bootstrap-markdown.scss, in `box-shadow'\A         from line 66 of bootstrap-markdown.scss\A \A 61:   $color: $input-border-focus;\A 62:   $color-rgba: rgba(red($color), green($color), blue($color), .6);\A 63:   &.active {\A 64:     border-color: $color;\A 65:     outline: 0;\A 66:     @include box-shadow(inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px $color-rgba);\A 67:   }\A 68: \A 69:   .md-controls {\A 70:     float: right;\A 71:     padding: 3px;"; }
+/*# sourceMappingURL=bootstrap-markdown.css.map */

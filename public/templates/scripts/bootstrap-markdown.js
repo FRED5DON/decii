@@ -1252,7 +1252,7 @@
                         name: 'cmdCode',
                         hotkey: 'Ctrl+K',
                         title: 'Code',
-                        icon: { glyph: 'glyphicon glyphicon-asterisk', fa: 'fa fa-code', 'fa-3': 'icon-code' },
+                        icon: { glyph: 'glyphicon glyphicon-console', fa: 'fa fa-code', 'fa-3': 'icon-code' },
                         callback: function(e) {
                             if (e.$options.onBtnClick(e,'cmdCode')){
                                 return;
@@ -1292,6 +1292,64 @@
                                 return;
                             }
                         }
+                    },{
+                        name: 'cmdComment',
+                        hotkey: 'Ctrl+M',
+                        title: 'Comment',
+                        icon: { glyph: 'glyphicon glyphicon-asterisk', fa: 'fa fa-code', 'fa-3': 'icon-code' },
+                        callback: function(e) {
+                            if (e.$options.onBtnClick(e,'cmdComment')){
+                                return;
+                            }
+                            // Give/remove ** surround the selection
+                            var chunk, cursor, selected = e.getSelection(), content = e.getContent();
+
+                            if (selected.length === 0) {
+                                // Give extra word
+                                chunk = e.__localize('code text here');
+                            } else {
+                                chunk = selected.text;
+                            }
+
+                            if (selected.length === 0) {
+                                // Give extra word
+                                chunk = e.__localize('quote here');
+
+                                e.replaceSelection('\n    '+chunk);
+
+                                // Set the cursor
+                                cursor = selected.start+5;
+                            } else {
+                                if (selected.text.indexOf('\n') < 0) {
+                                    chunk = selected.text;
+
+                                    e.replaceSelection('    '+chunk);
+
+                                    // Set the cursor
+                                    cursor = selected.start+4;
+                                } else {
+                                    var list = [];
+
+                                    list = selected.text.split('\n');
+                                    chunk = list[0];
+
+                                    $.each(list,function(k,v) {
+                                        list[k] = '    '+v;
+                                    });
+
+                                    e.replaceSelection('\n\n'+list.join('\n'));
+
+                                    // Set the cursor
+                                    cursor = selected.start+4;
+                                }
+                            }
+
+                            // Set the cursor
+                            e.setSelection(cursor,cursor+chunk.length);
+                            if (e.$options.onAfterBtnClick(e,'cmdComment')){
+                                return;
+                            }
+                        }
                     },
                     {
                         name: 'cmdQuote',
@@ -1310,18 +1368,18 @@
                                 // Give extra word
                                 chunk = e.__localize('quote here');
 
-                                e.replaceSelection('> '+chunk);
+                                e.replaceSelection('\n> '+chunk);
 
                                 // Set the cursor
-                                cursor = selected.start+2;
+                                cursor = selected.start+3;
                             } else {
                                 if (selected.text.indexOf('\n') < 0) {
                                     chunk = selected.text;
 
-                                    e.replaceSelection('> '+chunk);
+                                    e.replaceSelection('\n> '+chunk);
 
                                     // Set the cursor
-                                    cursor = selected.start+2;
+                                    cursor = selected.start+3;
                                 } else {
                                     var list = [];
 

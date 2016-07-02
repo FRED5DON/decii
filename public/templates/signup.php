@@ -1,23 +1,20 @@
-<?php
-session_start();
- ?>
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <?php include_once 'plates/head.php';
+<?php include_once 'plates/head.php';
     ?>
     <style>
         .input-group-addon.verify-code {
             padding: 0;
-            border-radius: 0px;
-            border-width: 1px;
+            border-radius: 0;
+            border-width: 0;
             background: transparent;
         }
 
-        .input-group-addon.verify-code,
-        .input-group-addon.verify-code img {
-            border-radius: 0 30px 30px 0;
+        input[name='uvcode']{
+
         }
+        /*.input-group-addon.verify-code,*/
+        /*.input-group-addon.verify-code img {*/
+            /*border-radius: 0 30px 30px 0;*/
+        /*}*/
 
         #agreement {
             color: #00b3ee;
@@ -25,9 +22,16 @@ session_start();
         .alert{
             margin-bottom: 0 !important;
         }
+        .underline_input,
+        .underline_input:focus{
+            box-shadow: none;
+            border-radius: 0;
+            border-width: 0 0 1px 0;
+            border-bottom: 1px solid rgba(140, 83, 104, 0.44);
+        }
 
     </style>
-</head>
+<?='</head>' ?>
 <body class="decii theme-normal global-bg">
 <!--<h1>你好，世界！</h1>-->
 <!--<div class="loading">-->
@@ -40,7 +44,7 @@ session_start();
 
     <div class="row">
         <div class="col-sm-2 col-md-3"></div>
-        <div class="col-sm-8 col-md-6 center-block panel-sign circle-corner">
+        <div class="col-sm-8 col-md-6 center-block panel-sign underline_input">
             <form id="signUp" class="form-horizontal" action="/user/signup"
                   method="post"
                   enctype="application/x-www-form-urlencoded">
@@ -58,21 +62,21 @@ session_start();
                 </div>
                 <div class="form-group">
                     <div class="col-sm-12">
-                        <input type="text" class="form-control circle-corner" name="usrname"
+                        <input type="text" class="form-control underline_input" name="usrname"
                                value="fred"
                                placeholder="<?= $map['username'][$lang] ?>">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-12">
-                        <input type="email" class="form-control circle-corner" name="email"
+                        <input type="email" class="form-control underline_input" name="email"
                                value="gsiner@live.com"
                                placeholder="<?= $map['email'][$lang] ?>">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-12">
-                        <input type="password" class="form-control circle-corner" id="usrpwd" name="usrpwd"
+                        <input type="password" class="form-control underline_input" id="usrpwd" name="usrpwd"
                                value="123456"
                                placeholder="<?= $map['password'][$lang] ?>">
                         <input type="password" name="usrpassword" hidden="hidden"/>
@@ -80,13 +84,13 @@ session_start();
                 </div>
                 <div class="form-group">
                     <div class="col-sm-12">
-                        <input type="password" class="form-control circle-corner" id="usrpwd2"
+                        <input type="password" class="form-control underline_input" id="usrpwd2"
                                value="123456"
                                placeholder="<?= $map['confirmPassword'][$lang] ?>">
                     </div>
                 </div>
                 <div class="input-group" style="margin-bottom: 16px;">
-                    <input type="text" class="form-control circle-corner"
+                    <input type="text" class="form-control underline_input"
                            name="uvcode"
                            placeholder="<?= $map['vcode'][$lang] ?>"
                            aria-describedby="basic-addon2">
@@ -111,13 +115,13 @@ session_start();
                 <div class="form-group">
                     <div class="col-sm-12">
                         <button type="button" id="signup"
-                                class="btn btn-success btn-block circle-corner"><?= $map['nav-signup'][$lang] ?></button>
+                                class="btn btn-success btn-block"><?= $map['nav-signup'][$lang] ?></button>
                     </div>
                 </div>
 
                 <div class="form-group has-feedback ">
                     <div class="col-sm-12">
-                        <div class="bg-info alert circle-corner">
+                        <div class="bg-info alert">
                             <p><?= $map['direct-login-info'][$lang] ?><a class="text-primary" href="signin.php">
                                     <b><?= $map['nav-signin'][$lang] ?></b></a></p>
                         </div>
@@ -176,7 +180,7 @@ session_start();
 
             function mkNotification(value) {
                 var s = [];
-                s.push('<div class="alert alert-warning alert-dismissible fade in circle-corner" role="alert">');
+                s.push('<div class="alert alert-warning alert-dismissible fade in underline_input" role="alert">');
                 s.push('<button type="button" class="close" data-dismiss="alert" aria-label="Close">');
                 s.push('<span aria-hidden="true">×</span></button>');
                 s.push('<span class="msg-content">' + value + '</span></div>');

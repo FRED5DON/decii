@@ -27,7 +27,7 @@ body.theme-normal {
   a:active {
     color: $color-skyblue;
   }
-  nav.navbar {
+  nav.navbar .title-bar{
     background: $color-milk !important;
     box-shadow: 0px 0.5px 0.5px transparentize($color-black, 0.8);
     .nav > li {

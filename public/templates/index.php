@@ -1,11 +1,5 @@
-<?php
-$path_dir_templates = './public/templates/';
-?>
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <?php include_once 'plates/head.php' ?>
-</head>
+<?php include_once 'plates/head.php' ?>
+<?='</head>' ?>
 <body class="decii theme-normal">
 <!--<h1>你好，世界！</h1>-->
 <!--<div class="loading">-->
@@ -23,7 +17,17 @@ $path_dir_templates = './public/templates/';
         <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
     </div>
     <div class="page-header">
-        <h1>Example page header
+        <h1><?php
+           if(isset($_SESSION['token'])){
+               echo '$_SESSION='.$_SESSION['token'];
+               var_dump($_SESSION['token']);
+           }
+
+            if( isset($_COOKIE['token'])){
+                echo '<br/>$_COOKIE='.$_COOKIE['token'];
+                var_dump($_COOKIE['token']);
+            }
+            ?>
             <small>Subtext for header</small>
         </h1>
     </div>

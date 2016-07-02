@@ -30,7 +30,7 @@ interface Controller
      * 通过验证
      * @return mixed
      */
-    public function didAuthorized();
+    public function didAuthorized($token);
 
 
     /**
